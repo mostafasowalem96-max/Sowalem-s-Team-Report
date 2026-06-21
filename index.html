@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Team Report">
+<meta name="theme-color" content="#0F1417">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" media="print" onload="this.media='all'">
+<title>Sowalem's Team Report</title>
+<style>
+:root{
+  --bg:#0F1417; --panel:#161D22; --panel-2:#1C242A; --line:#28333A;
+  --ink:#EAF0F2; --ink-dim:#8FA0A8; --ink-faint:#5C6B72;
+  --gold:#C9A24B; --gold-dim:#8A7233; --teal:#3FA796; --teal-dim:#1F5249;
+  --terra:#C9603F; --terra-dim:#5C3024; --good:#4FAE7A; --warn:#D9A441; --bad:#D9624F;
+  --radius:14px; --radius-sm:9px;
+  --font-display:'Tajawal','Segoe UI',Tahoma,sans-serif;
+  --font-body:'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif;
+  --font-mono:'Space Grotesk','IBM Plex Sans Arabic',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+input,select,textarea{font-size:16px;-webkit-text-size-adjust:100%;box-sizing:border-box;max-width:100%;}
+body{background:var(--bg);background-image:radial-gradient(circle at 15% 0%,rgba(201,162,75,0.08),transparent 42%),radial-gradient(circle at 85% 100%,rgba(63,167,150,0.06),transparent 46%);color:var(--ink);font-family:var(--font-body);font-weight:400;letter-spacing:0.01em;line-height:1.5;min-height:100vh;padding-bottom:90px;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;overscroll-behavior-y:contain;touch-action:manipulation;}
+::selection{background:var(--gold-dim);}
+.topbar{position:sticky;top:0;z-index:50;background:#0F1417;border-bottom:1px solid var(--line);padding:14px 16px 12px;}
+.topbar-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand-mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--gold),var(--gold-dim));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:900;font-size:16px;color:#1A1407;flex-shrink:0;}
+.brand-text h1{font-family:var(--font-display);font-weight:700;font-size:16px;line-height:1.2;letter-spacing:-0.01em;}
+.brand-text span{font-size:10.5px;color:var(--ink-dim);letter-spacing:0.06em;text-transform:uppercase;}
+.month-pill{display:flex;align-items:center;gap:6px;background:var(--panel-2);border:1px solid var(--line);border-radius:20px;padding:6px 6px 6px 12px;}
+.month-pill select{background:transparent;border:none;color:var(--ink);font-family:var(--font-mono);font-size:13px;font-weight:600;direction:ltr;}
+.month-pill button{background:var(--gold);color:#1A1407;border:none;width:26px;height:26px;border-radius:50%;font-size:14px;font-weight:700;cursor:pointer;}
+.view{display:none;padding:16px;max-width:720px;margin:0 auto;}
+.view.active{display:block;animation:fadeIn .2s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px);}to{opacity:1;transform:translateY(0);}}
+.division-switch{display:flex;gap:8px;margin-bottom:16px;}
+.division-btn{flex:1;padding:11px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink-dim);font-weight:700;font-size:13.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;}
+.division-btn .sw{width:8px;height:8px;border-radius:50%;background:var(--ink-faint);}
+.division-btn.active.commercial{background:linear-gradient(135deg,rgba(201,162,75,0.16),var(--panel));border-color:var(--gold-dim);color:var(--gold);}
+.division-btn.active.commercial .sw{background:var(--gold);}
+.division-btn.active.residential{background:linear-gradient(135deg,rgba(63,167,150,0.16),var(--panel));border-color:var(--teal-dim);color:var(--teal);}
+.division-btn.active.residential .sw{background:var(--teal);}
+.section-label{font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--gold);text-transform:uppercase;letter-spacing:0.08em;margin:24px 0 11px;display:flex;align-items:center;gap:10px;opacity:0.92;}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent);}
+.card{background:linear-gradient(180deg,#181F25,var(--panel));border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:0 1px 2px rgba(0,0,0,0.25);}
+.avatar{width:38px;height:38px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:14px;}
+.avatar.commercial{background:rgba(201,162,75,0.15);color:var(--gold);}
+.avatar.residential{background:rgba(63,167,150,0.15);color:var(--teal);}
+.sp-name{font-weight:700;font-size:14.5px;}
+.sp-sub{font-size:11.5px;color:var(--ink-dim);margin-top:2px;font-family:var(--font-mono);direction:ltr;text-align:left;}
+.score-chip{font-family:var(--font-mono);font-weight:700;font-size:15px;padding:5px 10px;border-radius:8px;min-width:54px;text-align:center;}
+.score-chip.s-good{background:rgba(79,174,122,0.15);color:var(--good);}
+.score-chip.s-warn{background:rgba(217,164,65,0.15);color:var(--warn);}
+.score-chip.s-bad{background:rgba(217,98,79,0.15);color:var(--bad);}
+.score-chip.s-empty{background:var(--panel-2);color:var(--ink-faint);}
+.target-row{display:flex;align-items:center;gap:10px;padding:14px 0 10px;}
+.target-row label{font-size:12.5px;color:var(--ink-dim);flex:1 1 auto;min-width:0;}
+.target-row input{flex:0 0 46%;max-width:46%;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:11px 12px;color:var(--ink);font-family:var(--font-mono);font-size:16px;direction:ltr;text-align:left;min-width:0;}
+.target-implied{font-size:11px;color:var(--ink-faint);margin-top:-4px;margin-bottom:8px;font-family:var(--font-mono);direction:ltr;text-align:left;}
+.metric-bars{margin-top:16px;}
+.mbar-row{margin-bottom:11px;}
+.mbar-top{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:5px;}
+.mbar-top .mlabel{color:var(--ink-dim);font-weight:600;}
+.mbar-top .mval{font-family:var(--font-mono);color:var(--ink);}
+.mbar-track{height:7px;background:var(--panel-2);border-radius:4px;overflow:hidden;}
+.mbar-fill{height:100%;border-radius:4px;transition:width .4s ease;}
+.mbar-fill.sales{background:linear-gradient(90deg,var(--gold-dim),var(--gold));}
+.mbar-fill.reservations{background:linear-gradient(90deg,var(--teal-dim),var(--teal));}
+.mbar-fill.appointments{background:linear-gradient(90deg,#5b4a8a,#8a6fd9);}
+.btn-sm{flex:1;padding:9px;border-radius:9px;border:1px solid var(--line);background:var(--panel-2);color:var(--ink-dim);font-size:12px;font-weight:600;cursor:pointer;text-align:center;}
+.btn-sm:active{background:var(--bg);}
+.btn-sm.danger{color:var(--bad);border-color:var(--terra-dim);}
+.btn-sm.whatsapp{color:#25D366;border-color:rgba(37,211,102,0.3);}
+.add-btn{background:linear-gradient(135deg,var(--gold),#B8902F);color:#1A1407;border:none;border-radius:11px;padding:0 18px;font-weight:700;font-size:13.5px;cursor:pointer;font-family:var(--font-display);box-shadow:0 3px 10px rgba(201,162,75,0.18);}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#0F1417;border-top:1px solid var(--line);display:flex;padding:6px 4px calc(6px + env(safe-area-inset-bottom));overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.bottom-nav::-webkit-scrollbar{display:none;}
+.nav-btn{flex:0 0 auto;min-width:62px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 6px;background:none;border:none;color:var(--ink-faint);cursor:pointer;font-size:10px;font-weight:600;}
+.nav-btn.active{color:var(--gold);}
+.nav-btn svg{width:20px;height:20px;}
+.entry-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px;}
+.entry-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+.entry-name{font-weight:700;font-size:14px;}
+.entry-meta{font-size:11.5px;color:var(--ink-dim);margin-top:3px;line-height:1.5;}
+.entry-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:6px;margin-left:6px;font-weight:600;}
+.entry-tag.commercial{background:rgba(201,162,75,0.15);color:var(--gold);}
+.entry-tag.residential{background:rgba(63,167,150,0.15);color:var(--teal);}
+.entry-value{font-family:var(--font-mono);font-weight:700;font-size:15px;color:var(--good);white-space:nowrap;}
+.entry-reason{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-dim);}
+.entry-actions{display:flex;gap:5px;justify-content:flex-end;margin-top:5px;}
+.entry-iconbtn{background:var(--panel-2);border:1px solid var(--line);border-radius:7px;width:30px;height:28px;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.entry-iconbtn.edit{color:var(--gold);border-color:var(--gold-dim);}
+.entry-iconbtn.del{color:var(--bad);border-color:var(--terra-dim);}
+.res-action-row{display:flex;gap:7px;margin-top:11px;padding-top:11px;border-top:1px solid var(--line);}
+.res-action-btn{flex:1;padding:9px 6px;border-radius:8px;border:1px solid var(--line);background:var(--panel-2);font-size:11.5px;font-weight:700;cursor:pointer;}
+.res-action-btn.deal{color:var(--good);border-color:rgba(79,174,122,0.3);}
+.res-action-btn.cancel{color:var(--terra);border-color:var(--terra-dim);}
+.res-action-btn.edit{flex:0 0 44px;color:var(--gold);border-color:var(--gold-dim);}
+.res-action-btn.del{flex:0 0 44px;color:var(--bad);}
+.res-action-btn:active{background:var(--bg);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.form-field{margin-bottom:10px;}
+.form-field.full{grid-column:1/-1;}
+.form-field label{display:block;font-size:11.5px;color:var(--ink-dim);margin-bottom:5px;font-weight:600;}
+.form-field input,.form-field select,.form-field textarea{width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:10px 11px;color:var(--ink);font-size:16px;font-family:var(--font-body);}
+.form-field textarea{resize:vertical;min-height:60px;}
+.form-submit{width:100%;background:linear-gradient(135deg,var(--gold),#B8902F);color:#1A1407;border:none;border-radius:11px;padding:13px;font-weight:700;font-size:15px;cursor:pointer;margin-top:6px;font-family:var(--font-display);letter-spacing:0.01em;box-shadow:0 3px 10px rgba(201,162,75,0.18);}
+.form-submit:active{transform:scale(0.99);}
+.filter-row{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none;}
+.filter-row::-webkit-scrollbar{display:none;}
+.filter-chip{flex-shrink:0;padding:7px 13px;border-radius:18px;border:1px solid var(--line);background:var(--panel);color:var(--ink-dim);font-size:12px;font-weight:600;cursor:pointer;}
+.filter-chip.active{background:var(--panel-2);color:var(--ink);border-color:var(--gold-dim);}
+.empty-state{text-align:center;padding:40px 20px;color:var(--ink-faint);}
+.empty-state .ico{font-size:34px;margin-bottom:10px;opacity:0.5;}
+.empty-state p{font-size:13px;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px;}
+.stat-card{background:linear-gradient(180deg,#181F25,var(--panel));border:1px solid var(--line);border-radius:12px;padding:15px;box-shadow:0 1px 2px rgba(0,0,0,0.25);}
+.stat-card .num{font-family:var(--font-mono);font-weight:700;font-size:22px;letter-spacing:-0.01em;}
+.stat-card .lbl{font-size:11px;color:var(--ink-dim);margin-top:5px;letter-spacing:0.01em;}
+.stat-card.wide{grid-column:1/-1;}
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;}
+.chart-card h3{font-size:13px;font-weight:700;margin-bottom:12px;color:var(--ink-dim);}
+.chart-wrap{position:relative;height:220px;}
+.export-row{display:flex;gap:8px;}
+.export-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer;}
+.export-btn.pdf{color:var(--terra);}
+.export-btn.xlsx{color:var(--good);}
+.export-btn.whatsapp{color:#25D366;}
+.weight-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;}
+.weight-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.weight-row label{width:64px;font-size:12.5px;color:var(--ink-dim);flex-shrink:0;}
+.weight-row input[type="range"]{flex:1;}
+.weight-row .wval{width:42px;text-align:left;font-family:var(--font-mono);font-size:13px;direction:ltr;}
+.weight-sum{font-size:11.5px;color:var(--ink-faint);text-align:center;margin-top:4px;}
+.weight-sum.bad{color:var(--bad);}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;display:none;align-items:flex-end;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal-sheet{background:var(--panel);border-radius:18px 18px 0 0;width:100%;max-width:720px;padding:20px 18px calc(20px + env(safe-area-inset-bottom));max-height:88vh;overflow-y:auto;animation:slideUp .22s ease;}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.modal-head h3{font-family:var(--font-display);font-size:17px;font-weight:900;letter-spacing:-0.01em;}
+.modal-close{background:var(--panel-2);border:none;color:var(--ink-dim);width:30px;height:30px;border-radius:50%;font-size:15px;cursor:pointer;}
+.toast{position:fixed;bottom:78px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--panel-2);border:1px solid var(--line);color:var(--ink);padding:10px 18px;border-radius:10px;font-size:13px;font-weight:600;z-index:200;opacity:0;transition:all .25s;pointer-events:none;max-width:90%;text-align:center;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.quote-banner{background:linear-gradient(135deg,rgba(201,162,75,0.18),rgba(28,36,42,0.6));border:1px solid var(--gold-dim);border-radius:14px;padding:18px 16px;margin-bottom:18px;text-align:center;position:relative;overflow:hidden;}
+.quote-banner::before{content:'“';position:absolute;top:-10px;right:14px;font-size:60px;color:var(--gold);opacity:0.18;font-family:Georgia,serif;}
+.quote-banner p{font-family:var(--font-display);font-weight:700;font-size:15.5px;line-height:1.7;color:var(--gold);}
+.quote-banner span{display:block;margin-top:8px;font-size:11px;color:var(--ink-dim);letter-spacing:0.08em;text-transform:uppercase;}
+.task-progress-wrap{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.task-progress-bar{flex:1;height:9px;background:var(--panel-2);border-radius:5px;overflow:hidden;}
+.task-progress-fill{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:5px;transition:width .3s;}
+.task-progress-txt{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--gold);flex-shrink:0;}
+.task-item{display:flex;align-items:center;gap:13px;background:linear-gradient(180deg,#181F25,var(--panel));border:1px solid var(--line);border-radius:12px;padding:15px 14px;margin-bottom:10px;cursor:pointer;transition:all .15s;}
+.task-item:active{transform:scale(0.99);}
+.task-item.done{opacity:0.6;}
+.task-check{width:26px;height:26px;border-radius:8px;border:2px solid var(--ink-faint);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.task-item.done .task-check{background:var(--gold);border-color:var(--gold);color:#1A1407;}
+.task-check svg{width:15px;height:15px;opacity:0;}
+.task-item.done .task-check svg{opacity:1;}
+.task-label{font-size:14.5px;font-weight:600;line-height:1.4;}
+.task-item.done .task-label{text-decoration:line-through;color:var(--ink-dim);}
+.task-edit-row{display:flex;align-items:center;gap:8px;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:10px 11px;margin-bottom:9px;}
+.task-edit-row input{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:9px 10px;color:var(--ink);font-size:16px;min-width:0;}
+.task-edit-row .task-del{background:none;border:none;color:var(--bad);font-size:18px;cursor:pointer;flex-shrink:0;padding:2px 6px;}
+.back-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.back-btn{background:var(--panel);border:1px solid var(--line);color:var(--ink-dim);width:34px;height:34px;border-radius:9px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.sp-hero{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.sp-hero .avatar{width:56px;height:56px;border-radius:14px;font-size:21px;}
+.sp-hero-name{font-family:var(--font-display);font-weight:900;font-size:20px;letter-spacing:-0.01em;}
+.sp-hero-title{font-size:12.5px;color:var(--ink-dim);margin-top:2px;}
+.sp-type-tag{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:6px;margin-top:6px;}
+.sp-type-tag.direct{background:rgba(138,111,217,0.16);color:#a78bf0;}
+.sp-type-tag.standard{background:rgba(63,167,150,0.16);color:var(--teal);}
+.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.team-card{background:linear-gradient(180deg,#181F25,var(--panel));border:1px solid var(--line);border-radius:var(--radius);padding:18px 12px;text-align:center;cursor:pointer;transition:all .18s;box-shadow:0 1px 2px rgba(0,0,0,0.25);position:relative;}
+.team-card:active{border-color:var(--gold-dim);transform:scale(0.98);}
+.team-card .avatar{width:50px;height:50px;margin:0 auto 11px;font-size:19px;border-radius:14px;}
+.team-card .tname{font-weight:700;font-size:14px;letter-spacing:-0.01em;}
+.team-card .ttitle{font-size:10.5px;color:var(--ink-faint);margin-top:2px;min-height:13px;}
+.team-card .tscore{margin-top:8px;}
+.team-card-del{position:absolute;top:8px;left:8px;background:rgba(217,98,79,0.15);border:none;color:var(--bad);width:24px;height:24px;border-radius:7px;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.team-card-add{display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px dashed var(--line);background:transparent;box-shadow:none;}
+.team-card-add .plus{width:50px;height:50px;border-radius:14px;background:var(--panel-2);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--gold);margin-bottom:11px;}
+.team-card-add .tname{color:var(--ink-dim);}
+.daily-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-bottom:4px;}
+.day-col{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:6px 3px;min-width:0;}
+.day-col h5{font-size:9px;color:var(--ink-faint);text-align:center;margin-bottom:6px;font-weight:600;}
+.day-col input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:6px 1px;color:var(--ink);font-family:var(--font-mono);font-size:15px;text-align:center;margin-bottom:4px;min-width:0;box-sizing:border-box;}
+.day-col input:last-child{margin-bottom:0;}
+.day-col .dlabel{font-size:8px;color:var(--ink-faint);text-align:center;margin-bottom:1px;}
+.daily-totals{display:flex;gap:8px;margin-top:10px;}
+.daily-total-chip{flex:1;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:9px 6px;text-align:center;}
+.daily-total-chip .v{font-family:var(--font-mono);font-weight:700;font-size:15px;}
+.daily-total-chip .l{font-size:9.5px;color:var(--ink-dim);margin-top:2px;}
+.broker-row{display:flex;align-items:center;gap:7px;background:var(--panel-2);border:1px solid var(--line);border-radius:9px;padding:9px 10px;margin-bottom:8px;}
+.broker-row input[type="text"]{flex:1 1 0;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 9px;color:var(--ink);font-size:16px;min-width:0;}
+.broker-row input.share-input{flex:0 0 38%;max-width:38%;}
+.broker-del{background:none;border:none;color:var(--ink-faint);font-size:16px;cursor:pointer;flex-shrink:0;padding:2px 4px;}
+.broker-add-btn{width:100%;padding:10px;border-radius:9px;border:1px dashed var(--line);background:transparent;color:var(--ink-dim);font-size:12.5px;font-weight:600;cursor:pointer;}
+.broker-stats{display:flex;gap:8px;margin:10px 0 14px;}
+.broker-stat{flex:1;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:9px;text-align:center;}
+.broker-stat .v{font-family:var(--font-mono);font-weight:700;font-size:16px;}
+.broker-stat .l{font-size:9.5px;color:var(--ink-dim);margin-top:2px;}
+.profile-field{margin-bottom:12px;}
+.profile-field label{display:block;font-size:11.5px;color:var(--ink-dim);margin-bottom:5px;font-weight:600;}
+.profile-field input,.profile-field textarea,.profile-field select{width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:10px 11px;color:var(--ink);font-size:16px;font-family:var(--font-body);}
+.profile-field textarea{min-height:70px;resize:vertical;}
+.profile-field input[type="date"]{-webkit-appearance:none;appearance:none;text-align:left;}
+.day-col select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:6px 1px;color:var(--ink);font-family:var(--font-mono);font-size:15px;text-align:center;margin-bottom:4px;min-width:0;box-sizing:border-box;-webkit-appearance:none;appearance:none;}
+.att-grid{display:flex;flex-direction:column;gap:6px;}
+.att-row{display:grid;grid-template-columns:60px 1fr 1fr;gap:6px;align-items:center;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:8px 9px;}
+.att-row .att-day{font-size:10px;color:var(--ink-dim);font-weight:600;}
+.att-head{display:grid;grid-template-columns:60px 1fr 1fr;gap:6px;padding:0 9px 5px;font-size:9.5px;color:var(--ink-faint);}
+.att-head span:nth-child(2),.att-head span:nth-child(3){text-align:center;}
+.att-seg{display:flex;gap:4px;}
+.att-seg-btn{flex:1;padding:7px 3px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink-faint);font-size:10px;font-weight:700;cursor:pointer;text-align:center;line-height:1.3;}
+.att-seg-btn.active.good{background:rgba(79,174,122,0.18);border-color:var(--good);color:var(--good);}
+.att-seg-btn.active.bad{background:rgba(217,98,79,0.18);border-color:var(--bad);color:var(--bad);}
+.share-pct-btns{display:flex;gap:7px;}
+.share-pct-btn{flex:1;padding:9px;border-radius:8px;border:1px solid var(--line);background:var(--panel-2);color:var(--ink-dim);font-weight:700;font-size:13px;cursor:pointer;font-family:var(--font-mono);}
+.share-pct-btn.active{background:rgba(201,162,75,0.16);border-color:var(--gold-dim);color:var(--gold);}
+.split-preview{font-size:11.5px;color:var(--ink-dim);background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;margin-top:4px;line-height:1.6;}
+.status-pill{display:flex;align-items:center;gap:8px;background:var(--panel-2);border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:14px;}
+.status-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.status-pill span.txt{font-size:12px;color:var(--ink-dim);line-height:1.5;}
+/* ---- My Deals / Sales Log ---- */
+.md-summary-card{background:linear-gradient(135deg,rgba(201,162,75,0.16),var(--panel));border:1px solid var(--gold-dim);border-radius:14px;padding:16px;margin-bottom:16px;}
+.md-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);}
+.md-summary-item .v{font-family:var(--font-mono);font-weight:700;font-size:18px;}
+.md-summary-item .l{font-size:10.5px;color:var(--ink-dim);margin-top:3px;}
+.md-row{background:linear-gradient(180deg,#181F25,var(--panel));border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:11px;box-shadow:0 1px 2px rgba(0,0,0,0.25);}
+.md-row-head{display:flex;align-items:center;gap:7px;margin-bottom:10px;}
+.md-row-head input{flex:1 1 0;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:10px 11px;color:var(--ink);font-size:16px;font-weight:600;min-width:0;}
+.md-iconbtn{flex:0 0 auto;width:30px;height:32px;border-radius:7px;border:1px solid var(--line);background:var(--panel-2);color:var(--ink-dim);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.md-iconbtn:disabled{opacity:0.35;}
+.md-iconbtn.del{color:var(--bad);border-color:var(--terra-dim);}
+.md-row-body{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:11px;}
+.md-field label{display:block;font-size:11px;color:var(--ink-dim);margin-bottom:5px;font-weight:600;}
+.md-field input,.md-field select{width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:10px 11px;color:var(--ink);font-size:16px;font-family:var(--font-body);}
+.md-field input{font-family:var(--font-mono);direction:ltr;text-align:left;}
+.md-comm{display:flex;gap:10px;border-top:1px solid var(--line);padding-top:11px;}
+.md-comm>div{flex:1;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;}
+.md-comm .lbl{display:block;font-size:10px;color:var(--ink-dim);margin-bottom:3px;}
+.md-comm .val{font-family:var(--font-mono);font-weight:700;font-size:14px;color:var(--good);}
+.md-comm .val.gold{color:var(--gold);}
+.md-add-btn{width:100%;padding:12px;border-radius:11px;border:1px solid var(--line);background:var(--panel-2);color:var(--gold);font-weight:700;font-size:13.5px;cursor:pointer;margin-bottom:10px;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="toast" id="toast"></div>
+<div class="modal-overlay" id="modalOverlay"><div class="modal-sheet" id="modalSheet"></div></div>
+<script>
+// ============================================================
+// Sowalem's Team Report
+// ============================================================
+let DB=null;
+const DB_STORAGE_KEY='sowalemTeamDB_v2';
+const BACKUP_STORAGE_KEY='sowalemTeamBackup_v2';
+const AUTO_BACKUP_KEY='sowalemTeamAuto_v2';
+const _hasClaudeStorage=(typeof window!=='undefined'&&window.storage&&window.storage.get&&window.storage.set);
+let _hasLocalStorage=false;
+try{ if(typeof window!=='undefined'&&window.localStorage){ const _t='__sowalem_test__'; window.localStorage.setItem(_t,'1'); window.localStorage.removeItem(_t); _hasLocalStorage=true; } }catch(e){ _hasLocalStorage=false; }
+const _hasStorage=_hasClaudeStorage||_hasLocalStorage;
+
+function defaultSp(idx){ return { id:'sp'+idx, name:'Salesperson '+idx, title:'', joinDate:'', notes:'', type:'standard', brokerCount:0, brokerAccounts:[] }; }
+function defaultDB(){
+  return {
+    weights:{sales:75,reservations:10,orientation:10,attendance:5},
+    salespeople:[1,2,3,4,5,6].map(defaultSp),
+    nextSpIdx:7, spTargets:{}, daily:{}, doneDeals:[], reservations:[], cancellations:[],
+    salesLog:{managerTotal:0,rows:[]},
+    commissionTiers:{stdLow:6000,stdHigh:7000,stdThreshold:60,direct:12000,mgrLow:2500,mgrHigh:3000,mgrThreshold:70,mgrDirect:4000},
+    orientationPerDay:2, meetingsPerDay:2, meetingsPerMonth:8, dayOff:5,
+    myTasks:{date:'',template:['10 calls to broker companies','Attend 2 meetings','Visit an orientation company','Follow the market & its news',"Review the sales team's performance"],checked:{}},
+    currentMonth:monthKey(new Date()), currentDivision:'commercial', activeTab:'team', route:{view:'list'}
+  };
+}
+function monthKey(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); }
+function monthLabel(mk){ const [y,m]=mk.split('-').map(Number); const names=['January','February','March','April','May','June','July','August','September','October','November','December']; return names[m-1]+' '+y; }
+function shiftMonth(mk,delta){ let [y,m]=mk.split('-').map(Number); m+=delta; if(m>12){m=1;y++;} if(m<1){m=12;y--;} return y+'-'+String(m).padStart(2,'0'); }
+function daysInMonth(mk){ const [y,m]=mk.split('-').map(Number); return new Date(y,m,0).getDate(); }
+function dateStr(mk,day){ const [y,m]=mk.split('-').map(Number); return y+'-'+String(m).padStart(2,'0')+'-'+String(day).padStart(2,'0'); }
+function weekdayShort(mk,day){ const [y,m]=mk.split('-').map(Number); const d=new Date(y,m-1,day); return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()]; }
+function isWorkingDay(mk,day,off){ const [y,m]=mk.split('-').map(Number); return new Date(y,m-1,day).getDay()!==off; }
+
+function load(){ try{ DB=(window._memoryDB)?JSON.parse(JSON.stringify(window._memoryDB)):defaultDB(); }catch(e){ DB=defaultDB(); } normalizeDB(); }
+function normalizeDB(){
+  if(!DB.weights) DB.weights={sales:75,reservations:10,orientation:10,attendance:5};
+  if(DB.weights.attendance===undefined){ DB.weights.attendance=DB.weights.appointments||5; delete DB.weights.appointments; }
+  if(DB.weights.orientation===undefined) DB.weights.orientation=10;
+  if(!DB.currentMonth) DB.currentMonth=monthKey(new Date());
+  if(!DB.currentDivision) DB.currentDivision='commercial';
+  if(!DB.activeTab) DB.activeTab='team';
+  if(DB.activeTab==='saleslog') DB.activeTab='reports';
+  if(DB.activeTab==='mydeals') DB.activeTab='reports';
+  if(!DB.route) DB.route={view:'list'};
+  if(!DB.daily) DB.daily={};
+  if(!DB.spTargets){
+    DB.spTargets={};
+    if(DB.targets){ Object.keys(DB.targets).forEach(k=>{ const p=k.split('_'); if(p.length===3){ const spId=p[0],division=p[1],month=p[2]; const key=spId+'_'+month; if(!DB.spTargets[key]) DB.spTargets[key]={mode:'split',total:{sales:0,reservations:0},commercial:{sales:0,reservations:0},residential:{sales:0,reservations:0}}; if(division==='commercial'||division==='residential'){ DB.spTargets[key][division]={sales:DB.targets[k].sales||0,reservations:DB.targets[k].reservations||0}; DB.spTargets[key].total.sales=(DB.spTargets[key].commercial.sales||0)+(DB.spTargets[key].residential.sales||0); DB.spTargets[key].total.reservations=(DB.spTargets[key].commercial.reservations||0)+(DB.spTargets[key].residential.reservations||0); } } }); }
+  }
+  if(!DB.doneDeals) DB.doneDeals=[];
+  if(!DB.reservations) DB.reservations=[];
+  if(!DB.cancellations) DB.cancellations=[];
+  if(!DB.salesLog) DB.salesLog={managerTotal:0,rows:[]};
+  if(DB.salesLog.managerTotal===undefined) DB.salesLog.managerTotal=0;
+  if(!Array.isArray(DB.salesLog.rows)) DB.salesLog.rows=[];
+  DB.salesLog.rows.forEach(r=>{ if(!r.id) r.id=uid(); if(r.name===undefined) r.name=''; if(r.sales===undefined) r.sales=0; });
+  if(!DB.commissionTiers) DB.commissionTiers={stdLow:6000,stdHigh:7000,stdThreshold:60,direct:12000,mgrLow:2500,mgrHigh:3000,mgrThreshold:70,mgrDirect:4000};
+  if(DB.orientationPerDay===undefined) DB.orientationPerDay=2;
+  if(DB.meetingsPerDay===undefined) DB.meetingsPerDay=2;
+  if(DB.meetingsPerMonth===undefined) DB.meetingsPerMonth=8;
+  if(DB.dayOff===undefined) DB.dayOff=5;
+  if(!DB.myTasks) DB.myTasks={date:'',template:['10 calls to broker companies','Attend 2 meetings','Visit an orientation company','Follow the market & its news',"Review the sales team's performance"],checked:{}};
+  if(!DB.myTasks.template) DB.myTasks.template=['10 calls to broker companies','Attend 2 meetings','Visit an orientation company','Follow the market & its news',"Review the sales team's performance"];
+  if(!DB.myTasks.checked) DB.myTasks.checked={};
+  if(!DB.salespeople||DB.salespeople.length===0) DB.salespeople=[1,2,3,4,5,6].map(defaultSp);
+  if(!DB.nextSpIdx) DB.nextSpIdx=DB.salespeople.length+1;
+  DB.salespeople.forEach(sp=>{ if(!sp.type) sp.type='standard'; if(!sp.brokerAccounts) sp.brokerAccounts=[]; if(sp.brokerCount===undefined) sp.brokerCount=sp.brokerAccounts.filter(a=>a.name&&a.name.trim()).length; if(sp.title===undefined) sp.title=''; if(sp.joinDate===undefined) sp.joinDate=''; if(sp.notes===undefined) sp.notes=''; });
+  Object.values(DB.daily).forEach(monthObj=>{ Object.values(monthObj).forEach(rec=>{ if(rec.checkIn!==undefined&&rec.attendIn===undefined){ rec.attendIn=rec.checkIn?'ontime':''; } if(rec.checkOut!==undefined&&rec.attendOut===undefined){ rec.attendOut=rec.checkOut?'ontime':''; } if(rec.orientation===undefined) rec.orientation=(rec.leads!==undefined?rec.leads:0); if(rec.meetings===undefined) rec.meetings=0; delete rec.checkIn; delete rec.checkOut; }); });
+}
+
+// ---------- Persistence (auto-save, multi-layer, offline-safe) ----------
+let _saveTimer=null; let _dirty=false;
+function save(){
+  try{ window._memoryDB=JSON.parse(JSON.stringify(DB)); }catch(e){}
+  _dirty=true;
+  if(_hasStorage){ if(_saveTimer) clearTimeout(_saveTimer); _saveTimer=setTimeout(flushSave,250); }
+}
+function flushSave(){
+  if(_saveTimer){ clearTimeout(_saveTimer); _saveTimer=null; }
+  let payload; try{ payload=JSON.stringify(DB); }catch(e){ return; }
+  _dirty=false;
+  try{
+    if(_hasClaudeStorage){ window.storage.set(DB_STORAGE_KEY,payload).catch(()=>{}); window.storage.set(AUTO_BACKUP_KEY,payload).catch(()=>{}); }
+    else if(_hasLocalStorage){ window.localStorage.setItem(DB_STORAGE_KEY,payload); try{ window.localStorage.setItem(AUTO_BACKUP_KEY,payload); }catch(e2){} }
+  }catch(e){ try{ if(_hasLocalStorage){ window.localStorage.removeItem(AUTO_BACKUP_KEY); window.localStorage.setItem(DB_STORAGE_KEY,payload); } }catch(e3){} }
+}
+function readDurable(key){
+  if(_hasClaudeStorage){ return window.storage.get(key).then(res=>(res&&res.value)?JSON.parse(res.value):null).catch(()=>null); }
+  if(_hasLocalStorage){ try{ const raw=window.localStorage.getItem(key); return Promise.resolve(raw?JSON.parse(raw):null); }catch(e){ return Promise.resolve(null); } }
+  return Promise.resolve(null);
+}
+async function loadFromStorage(){
+  if(!_hasStorage) return;
+  let loaded=null;
+  try{ loaded=await readDurable(DB_STORAGE_KEY); }catch(e){ loaded=null; }
+  if(!loaded){ try{ loaded=await readDurable(AUTO_BACKUP_KEY); }catch(e){ loaded=null; } }
+  if(loaded){ try{ DB=loaded; normalizeDB(); return; }catch(e){} }
+  save();
+}
+async function quickBackup(){
+  if(!_hasStorage){ showToast('Backup needs storage access'); return; }
+  try{ const payload=JSON.stringify({savedAt:new Date().toISOString(),db:DB}); if(_hasClaudeStorage){ await window.storage.set(BACKUP_STORAGE_KEY,payload); } else { window.localStorage.setItem(BACKUP_STORAGE_KEY,payload); } showToast('Backup saved ✓'); }
+  catch(e){ showToast('Backup failed'); }
+}
+async function quickRestore(){
+  if(!_hasStorage){ showToast('Restore needs storage access'); return; }
+  try{ const parsed=await readDurable(BACKUP_STORAGE_KEY); if(parsed){ DB=(parsed&&parsed.db)?parsed.db:parsed; normalizeDB(); save(); render(); showToast('Last backup restored ✓'); } else { showToast('No backup found yet'); } }
+  catch(e){ showToast('No backup found yet'); }
+}
+function storageStatusText(){
+  if(_hasClaudeStorage) return 'Auto-saving continuously (Claude storage). Data is kept between sessions.';
+  if(_hasLocalStorage) return 'Auto-saving continuously in this browser (Safari) — every edit is written instantly and again whenever you switch apps or close it. Keep a JSON backup too, in case Safari data is cleared.';
+  return 'Storage unavailable — data is kept only until you close. Use Backup (JSON) often.';
+}
+
+// ---- Lazy load external libs ----
+const _libState={chart:null,jspdf:null,html2canvas:null};
+function loadScript(src){ return new Promise((resolve,reject)=>{ const existing=document.querySelector('script[data-src="'+src+'"]'); if(existing){ existing.addEventListener('load',()=>resolve()); existing.addEventListener('error',()=>reject()); if(existing.dataset.loaded) resolve(); return; } const s=document.createElement('script'); s.src=src; s.dataset.src=src; s.onload=()=>{ s.dataset.loaded='1'; resolve(); }; s.onerror=()=>reject(new Error('load failed')); document.head.appendChild(s); }); }
+function ensureChart(){ if(typeof Chart!=='undefined') return Promise.resolve(true); if(!_libState.chart) _libState.chart=loadScript('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js').then(()=>true).catch(()=>{ _libState.chart=null; return false; }); return _libState.chart; }
+function ensureJsPDF(){ if(typeof window.jspdf!=='undefined'&&window.jspdf.jsPDF) return Promise.resolve(true); if(!_libState.jspdf) _libState.jspdf=loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js').then(()=>true).catch(()=>{ _libState.jspdf=null; return false; }); return _libState.jspdf; }
+function ensureHtml2Canvas(){ if(typeof window.html2canvas!=='undefined') return Promise.resolve(true); if(!_libState.html2canvas) _libState.html2canvas=loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js').then(()=>true).catch(()=>{ _libState.html2canvas=null; return false; }); return _libState.html2canvas; }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+
+// ---------- My daily tasks ----------
+function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function refreshMyTasksIfNewDay(){ const t=todayStr(); if(DB.myTasks.date!==t){ DB.myTasks.date=t; DB.myTasks.checked={}; save(); } }
+function toggleMyTask(idx){ DB.myTasks.checked[idx]=!DB.myTasks.checked[idx]; save(); }
+function addMyTask(text){ if(!text||!text.trim()) return; DB.myTasks.template.push(text.trim()); save(); }
+function removeMyTask(idx){ DB.myTasks.template.splice(idx,1); const nc={}; DB.myTasks.template.forEach((_,i)=>{ if(DB.myTasks.checked[i<idx?i:i+1]) nc[i]=true; }); DB.myTasks.checked=nc; save(); }
+function editMyTask(idx,text){ if(text!==undefined&&DB.myTasks.template[idx]!==undefined) DB.myTasks.template[idx]=text; save(); }
+function showToast(msg){ const t=document.getElementById('toast'); if(!t) return; t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1900); }
+
+load();
+
+function getSp(spId){ return DB.salespeople.find(s=>s.id===spId); }
+function isDirect(spId){ const sp=getSp(spId); return sp&&sp.type==='direct'; }
+function spName(id){ const sp=getSp(id); return sp?sp.name:'—'; }
+function divisionLabel(d){ return d==='commercial'?'Commercial':'Residential'; }
+function esc(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function fmtMoney(n){ n=Number(n)||0; return n.toLocaleString('en-US'); }
+function fmtPct(n){ if(!isFinite(n)) n=0; return (Math.round(n*10)/10).toFixed(1); }
+function round1(n){ return Math.round((Number(n)||0)*10)/10; }
+
+function addSalesperson(){ const idx=DB.nextSpIdx++; const sp=defaultSp(idx); sp.name='New Salesperson'; DB.salespeople.push(sp); save(); return sp; }
+function removeSalesperson(spId){ DB.salespeople=DB.salespeople.filter(s=>s.id!==spId); if(DB.route.view==='detail'&&DB.route.spId===spId) DB.route={view:'list'}; save(); }
+
+function stKey(spId,month){ return spId+'_'+month; }
+function defaultSpTarget(){ return {mode:'total',total:{sales:0,reservations:0},commercial:{sales:0,reservations:0},residential:{sales:0,reservations:0}}; }
+function getSpTargetObj(spId,month){ return DB.spTargets[stKey(spId,month)]||defaultSpTarget(); }
+function ensureSpTarget(spId,month){ const k=stKey(spId,month); if(!DB.spTargets[k]) DB.spTargets[k]=defaultSpTarget(); return DB.spTargets[k]; }
+function setSpTargetMode(spId,month,mode){ ensureSpTarget(spId,month).mode=mode; save(); }
+function setSpTargetField(spId,month,scope,field,value){ const o=ensureSpTarget(spId,month); if(!o[scope]) o[scope]={sales:0,reservations:0}; o[scope][field]=value; save(); }
+function totalTarget(spId,month){ const o=getSpTargetObj(spId,month); if(o.mode==='split') return {sales:(o.commercial.sales||0)+(o.residential.sales||0),reservations:(o.commercial.reservations||0)+(o.residential.reservations||0)}; return {sales:o.total.sales||0,reservations:o.total.reservations||0}; }
+function getTarget(spId,division,month){ const o=getSpTargetObj(spId,month); if(isDirect(spId)) return {sales:o.total.sales||0,reservations:0}; if(o.mode==='split') return {sales:(o[division]?o[division].sales:0)||0,reservations:(o[division]?o[division].reservations:0)||0}; return {sales:0,reservations:0}; }
+
+function orientationPerDay(){ return DB.orientationPerDay!==undefined?DB.orientationPerDay:2; }
+function workingDaysInMonth(month){ const total=daysInMonth(month); let n=0; const off=(DB.dayOff!==undefined?DB.dayOff:5); for(let d=1;d<=total;d++){ if(isWorkingDay(month,d,off)) n++; } return n; }
+function orientationMonthlyTarget(spId,month){ return workingDaysInMonth(month)*orientationPerDay(); }
+function meetingsPerMonth(){ return DB.meetingsPerMonth!==undefined?DB.meetingsPerMonth:8; }
+function meetingsMonthlyTarget(spId,month){ return meetingsPerMonth(); }
+function meetingsAchieved(spId,month){ const md=getDailyMonth(spId,month); let n=0; Object.values(md).forEach(d=>{ n+=Number(d.meetings)||0; }); return n; }
+function orientationAchieved(spId,month){ const md=getDailyMonth(spId,month); let n=0; if(isDirect(spId)){ Object.values(md).forEach(d=>{ n+=(Number(d.interested)||0)+(Number(d.notInterested)||0); }); } else { Object.values(md).forEach(d=>{ n+=Number(d.orientation)||0; }); } return n; }
+
+// ---- Shared-deal credit logic (only the allocated share counts for team + manager) ----
+function reservationShareFrac(r){ if(!r.share||!r.share.enabled) return 1; const pct=Number(r.share.pct)||50; return (r.role==='partner')?(100-pct)/100:pct/100; }
+function reservationCreditValue(r){ if(!r.share||!r.share.enabled) return Number(r.value)||0; return Math.round((Number(r.value)||0)*reservationShareFrac(r)); }
+function monthReservations(spId,division,month){ return DB.reservations.filter(r=>r.spId===spId&&r.division===division&&(r.date||'').slice(0,7)===month).reduce((s,r)=>s+reservationShareFrac(r),0); }
+
+function dealCredit(deal){ if(!deal.share||!deal.share.enabled) return Number(deal.value)||0; const pct=Number(deal.share.pct)||50; if(deal.role==='partner') return Math.round((Number(deal.value)||0)*(100-pct)/100); return Math.round((Number(deal.value)||0)*pct/100); }
+function monthSales(spId,division,month){ return DB.doneDeals.filter(d=>d.spId===spId&&d.division===division&&(d.date||'').slice(0,7)===month).reduce((s,d)=>s+dealCredit(d),0); }
+
+function getDailyMonth(spId,month){ const k=spId+'_'+month; if(!DB.daily[k]) DB.daily[k]={}; return DB.daily[k]; }
+function getDaily(spId,month,day){ const md=getDailyMonth(spId,month); const ds=dateStr(month,day); if(!md[ds]) md[ds]={attendIn:'',attendOut:'',leads:0,orientation:0,orientCompanies:[],meetings:0,interested:0,notInterested:0}; if(md[ds].attendIn===undefined) md[ds].attendIn=''; if(md[ds].attendOut===undefined) md[ds].attendOut=''; if(md[ds].orientation===undefined) md[ds].orientation=0; if(!Array.isArray(md[ds].orientCompanies)) md[ds].orientCompanies=[]; if(md[ds].meetings===undefined) md[ds].meetings=0; return md[ds]; }
+function setDaily(spId,month,day,field,value){ const md=getDailyMonth(spId,month); const ds=dateStr(month,day); if(!md[ds]) md[ds]={attendIn:'',attendOut:'',leads:0,orientation:0,orientCompanies:[],meetings:0,interested:0,notInterested:0}; md[ds][field]=value; if(field==='orientation'){ const n=Number(value)||0; if(!Array.isArray(md[ds].orientCompanies)) md[ds].orientCompanies=[]; md[ds].orientCompanies=md[ds].orientCompanies.slice(0,n); while(md[ds].orientCompanies.length<n) md[ds].orientCompanies.push(''); } save(); }
+function setDailyCompany(spId,month,day,idx,value){ const md=getDailyMonth(spId,month); const ds=dateStr(month,day); if(!md[ds]) md[ds]={attendIn:'',attendOut:'',leads:0,orientation:0,orientCompanies:[],meetings:0,interested:0,notInterested:0}; if(!Array.isArray(md[ds].orientCompanies)) md[ds].orientCompanies=[]; md[ds].orientCompanies[idx]=value; save(); }
+function attendanceStats(spId,month){ const md=getDailyMonth(spId,month); let scoreSum=0,recordedDays=0,onTimeInDays=0,lateInDays=0,onTimeOutDays=0,earlyOutDays=0; Object.values(md).forEach(rec=>{ const hasIn=rec.attendIn==='ontime'||rec.attendIn==='late'; const hasOut=rec.attendOut==='ontime'||rec.attendOut==='early'; if(!hasIn&&!hasOut) return; recordedDays++; let daySc=0,parts=0; if(hasIn){ parts++; if(rec.attendIn==='ontime'){ daySc+=100; onTimeInDays++; } else { lateInDays++; } } if(hasOut){ parts++; if(rec.attendOut==='ontime'){ daySc+=100; onTimeOutDays++; } else { earlyOutDays++; } } scoreSum+=parts>0?daySc/parts:0; }); const pct=recordedDays>0?(scoreSum/recordedDays):0; return {pct,recordedDays,onTimeInDays,lateInDays,onTimeOutDays,earlyOutDays}; }
+function dailyInfoTotals(spId,month){ const md=getDailyMonth(spId,month); const t={interested:0,notInterested:0}; Object.values(md).forEach(d=>{ t.interested+=Number(d.interested)||0; t.notInterested+=Number(d.notInterested)||0; }); return t; }
+
+function effectiveWeights(spId){ if(isDirect(spId)) return {sales:80,reservations:0,meetings:15,orientation:0,attendance:5}; return DB.weights; }
+function divisionScore(spId,division,month){ const target=getTarget(spId,division,month); const salesActual=monthSales(spId,division,month); const resActual=monthReservations(spId,division,month); const att=attendanceStats(spId,month); const orientTarget=orientationMonthlyTarget(spId,month); const orientActual=orientationAchieved(spId,month); const meetTarget=meetingsMonthlyTarget(spId,month); const meetActual=meetingsAchieved(spId,month); const pct=(a,t)=>t>0?(a/t)*100:(a>0?100:0); const pSales=pct(salesActual,target.sales); const pRes=pct(resActual,target.reservations); const pAtt=att.pct; const pOrient=pct(orientActual,orientTarget); const pMeet=pct(meetActual,meetTarget); const w=effectiveWeights(spId); const wsum=(w.sales+w.reservations+(w.orientation||0)+(w.meetings||0)+w.attendance)||1; const composite=(pSales*w.sales+pRes*w.reservations+pOrient*(w.orientation||0)+pMeet*(w.meetings||0)+pAtt*w.attendance)/wsum; return {pSales,pRes,pAtt,pOrient,pMeet,composite,target,actual:{sales:salesActual,reservations:resActual},att,orientTarget,orientActual,meetTarget,meetActual}; }
+function combinedScore(spId,month){ const com=divisionScore(spId,'commercial',month); const res=divisionScore(spId,'residential',month); const target=totalTarget(spId,month); const actual={sales:com.actual.sales+res.actual.sales,reservations:com.actual.reservations+res.actual.reservations}; const att=attendanceStats(spId,month); const orientTarget=orientationMonthlyTarget(spId,month); const orientActual=orientationAchieved(spId,month); const pct=(a,t)=>t>0?(a/t)*100:(a>0?100:0); const pSales=pct(actual.sales,target.sales); const pRes=pct(actual.reservations,target.reservations); const pAtt=att.pct; const pOrient=pct(orientActual,orientTarget); const w=effectiveWeights(spId); const wsum=(w.sales+w.reservations+(w.orientation||0)+(w.meetings||0)+w.attendance)||1; const composite=(pSales*w.sales+pRes*w.reservations+pOrient*(w.orientation||0)+pAtt*w.attendance)/wsum; return {pSales,pRes,pAtt,pOrient,pMeet:0,composite,target,actual,att,orientTarget,orientActual,byDivision:{commercial:com,residential:res}}; }
+function scoreClass(pct,has){ if(!has) return 's-empty'; if(pct>=90) return 's-good'; if(pct>=60) return 's-warn'; return 's-bad'; }
+function spHasTarget(cs){ return cs.target.sales>0||cs.target.reservations>0||cs.att.recordedDays>0||(cs.orientActual&&cs.orientActual>0)||(cs.meetActual&&cs.meetActual>0); }
+
+function brokerStats(sp){ const total=Number(sp.brokerCount)||0; const namedTop=sp.brokerAccounts.filter(a=>a.name&&a.name.trim()).length; const shared=sp.brokerAccounts.filter(a=>a.name&&a.name.trim()&&a.sharedWith&&a.sharedWith.trim()).length; return {total,namedTop,shared,exclusive:namedTop-shared}; }
+function isDealComplete(d){ if(d.downFull) return true; if(Number(d.downPct)>=100) return true; return false; }
+
+const MILLION=1000000;
+// Commission is computed on CREDITED sales (each one's allocated share of shared deals only)
+function spCommission(spId,month){ const tiers=DB.commissionTiers; const sales=monthSales(spId,'commercial',month)+monthSales(spId,'residential',month); const millions=sales/MILLION; if(isDirect(spId)) return {sales,rate:tiers.direct,amount:Math.round(millions*tiers.direct),tier:'direct'}; const target=totalTarget(spId,month).sales; const pctOfTarget=target>0?(sales/target)*100:0; const rate=pctOfTarget>=tiers.stdThreshold?tiers.stdHigh:tiers.stdLow; return {sales,rate,amount:Math.round(millions*rate),tier:pctOfTarget>=tiers.stdThreshold?'high':'low',pctOfTarget}; }
+function managerCommission(month){ const tiers=DB.commissionTiers; let stdSales=0,stdTarget=0,directSales=0; DB.salespeople.forEach(sp=>{ const s=monthSales(sp.id,'commercial',month)+monthSales(sp.id,'residential',month); if(isDirect(sp.id)){ directSales+=s; } else { stdSales+=s; stdTarget+=totalTarget(sp.id,month).sales; } }); const stdPctOfTarget=stdTarget>0?(stdSales/stdTarget)*100:0; const stdRate=stdPctOfTarget>=tiers.mgrThreshold?tiers.mgrHigh:tiers.mgrLow; const stdAmount=Math.round((stdSales/MILLION)*stdRate); const directAmount=Math.round((directSales/MILLION)*tiers.mgrDirect); return {stdSales,stdTarget,stdPctOfTarget,stdRate,stdAmount,directSales,directRate:tiers.mgrDirect,directAmount,total:stdAmount+directAmount}; }
+
+// ============================================================
+// SALES LOG (free record — no calculations, no reports)
+// ============================================================
+function salesLogAutoRows(month){ return DB.salespeople.map(sp=>{ const deals=DB.doneDeals.filter(d=>d.spId===sp.id&&(d.date||'').slice(0,7)===month); const value=deals.reduce((s,d)=>s+dealCredit(d),0); return {name:sp.name, count:deals.length, value}; }); }
+function salesLogManualValue(r){ return Number(r.value!==undefined?r.value:(r.sales||0))||0; }
+function salesLogTotals(month){ let count=0,value=0; salesLogAutoRows(month).forEach(r=>{ count+=r.count; value+=r.value; }); DB.salesLog.rows.forEach(r=>{ count+=Number(r.count)||0; value+=salesLogManualValue(r); }); return {count,value}; }
+function addSalesLogRow(){ DB.salesLog.rows.push({id:uid(),name:'',count:0,value:0}); save(); }
+function removeSalesLogRow(id){ DB.salesLog.rows=DB.salesLog.rows.filter(r=>r.id!==id); save(); }
+function moveSalesLogRow(id,dir){ const i=DB.salesLog.rows.findIndex(r=>r.id===id); if(i<0) return; const j=i+dir; if(j<0||j>=DB.salesLog.rows.length) return; const t=DB.salesLog.rows[i]; DB.salesLog.rows[i]=DB.salesLog.rows[j]; DB.salesLog.rows[j]=t; save(); }
+
+// ============================================================
+// RENDER ROOT
+// ============================================================
+function activeViewHTML(){
+  switch(DB.activeTab){
+    case 'myday': return renderMyDayView();
+    case 'deals': return renderDealsView();
+    case 'reservations': return renderReservationsView();
+    case 'cancellations': return renderCancellationsView();
+    case 'reports': return renderReportsView();
+    case 'settings': return renderSettingsView();
+    case 'team': default: return renderTeamRoute();
+  }
+}
+function render(){
+  const app=document.getElementById('app');
+  app.innerHTML=`${renderTopbar()}<div class="view active" id="view-${DB.activeTab}">${activeViewHTML()}</div>${renderBottomNav()}`;
+  attachHandlers();
+  try{ const _nav=document.querySelector('.bottom-nav'); const _act=document.querySelector('.nav-btn.active'); if(_nav&&_act) _nav.scrollLeft=_act.offsetLeft-(_nav.clientWidth-_act.clientWidth)/2; }catch(e){}
+  try{ const _vk=DB.activeTab+'|'+((DB.route&&DB.route.view)||'')+'|'+((DB.route&&DB.route.spId)||''); if(window._lastViewKey!==_vk){ window._lastViewKey=_vk; window.scrollTo(0,0); } }catch(e){}
+  if(DB.activeTab==='reports') setTimeout(renderTeamChart,40);
+  if(DB.activeTab==='team'&&DB.route.view==='detail') setTimeout(()=>renderSpDonut(DB.route.spId),40);
+}
+function renderTopbar(){ return `<div class="topbar"><div class="topbar-row"><div class="brand"><div class="brand-mark">S</div><div class="brand-text"><h1>Sowalem's Team Report</h1><span>Real Estate Division</span></div></div><div class="month-pill"><button id="prevMonth">‹</button><select id="monthSelect">${monthOptions()}</select><button id="nextMonth">›</button></div></div></div>`; }
+function monthOptions(){ const opts=new Set(); const base=new Date(); for(let i=-8;i<=4;i++){ const d=new Date(base.getFullYear(),base.getMonth()+i,1); opts.add(monthKey(d)); } opts.add(DB.currentMonth); return Array.from(opts).sort().map(mk=>`<option value="${mk}" ${mk===DB.currentMonth?'selected':''}>${monthLabel(mk)}</option>`).join(''); }
+function renderBottomNav(){
+  const tabs=[
+    {id:'team',label:'Team',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><path d="M3 21v-2a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v2"/><circle cx="17" cy="8" r="2.5"/><path d="M21 21v-1.5a4 4 0 0 0-3-3.87"/></svg>'},
+    {id:'myday',label:'My Day',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>'},
+    {id:'deals',label:'Deals',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-9a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/><path d="M16 7V4a1 1 0 0 0-1-1h-9a2 2 0 0 0-2 2v9a1 1 0 0 0 1 1h3"/></svg>'},
+    {id:'reservations',label:'Reserv.',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16l7-3 7 3Z"/></svg>'},
+    {id:'cancellations',label:'Cancelled',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6M9 9l6 6"/></svg>'},
+    {id:'reports',label:'Reports',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 8v9M13 5v12M8 12v5"/></svg>'},
+    {id:'settings',label:'Settings',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>'},
+  ];
+  return `<div class="bottom-nav">${tabs.map(t=>`<button class="nav-btn ${DB.activeTab===t.id?'active':''}" data-tab="${t.id}">${t.icon}<span>${t.label}</span></button>`).join('')}</div>`;
+}
+function metricBar(label,pct,cls){ const clamped=Math.min(pct,130); return `<div class="mbar-row"><div class="mbar-top"><span class="mlabel">${label}</span><span class="mval">${fmtPct(pct)}%</span></div><div class="mbar-track"><div class="mbar-fill ${cls}" style="width:${Math.min(clamped,100)}%"></div></div></div>`; }
+
+// ============================================================
+// TEAM
+// ============================================================
+function renderTeamRoute(){ if(DB.route.view==='detail'&&DB.route.spId){ const sp=getSp(DB.route.spId); if(sp) return renderSpDetail(sp); DB.route={view:'list'}; } return renderTeamList(); }
+function renderTeamList(){
+  const month=DB.currentMonth;
+  return `<div class="section-label">Team — ${monthLabel(month)}</div>
+    <div class="team-grid">
+      ${DB.salespeople.map(sp=>{ const cs=isDirect(sp.id)?divisionScore(sp.id,'commercial',month):combinedScore(sp.id,month); const has=spHasTarget(cs); const initials=sp.name.trim().split(' ').slice(0,2).map(w=>w[0]).join('');
+        return `<div class="team-card" data-open-sp="${sp.id}"><button class="team-card-del" data-del-sp="${sp.id}" title="Remove">✕</button><div class="avatar ${sp.type==='direct'?'residential':'commercial'}" style="margin:0 auto;">${esc(initials)}</div><div class="tname">${esc(sp.name)}</div><div class="ttitle">${esc(sp.title||(sp.type==='direct'?'Direct Sales':''))}</div><div class="tscore"><span class="score-chip ${scoreClass(cs.composite,has)}" style="font-size:13px;">${has?fmtPct(cs.composite)+'%':'—'}</span></div></div>`;
+      }).join('')}
+      <div class="team-card team-card-add" id="addSpCard"><div class="plus">＋</div><div class="tname">Add Salesperson</div></div>
+    </div>`;
+}
+function renderSpDetail(sp){
+  const month=DB.currentMonth; const direct=sp.type==='direct'; const division=DB.currentDivision; const comm=spCommission(sp.id,month);
+  return `<div class="back-row"><button class="back-btn" id="backToList">→</button><div style="font-size:13px; color:var(--ink-dim); font-weight:600;">Salesperson Details</div></div>
+    <div class="sp-hero"><div class="avatar ${direct?'residential':'commercial'}">${esc(sp.name.trim().split(' ').slice(0,2).map(w=>w[0]).join(''))}</div><div><div class="sp-hero-name">${esc(sp.name)}</div><div class="sp-hero-title">${esc(sp.title||'—')}</div><span class="sp-type-tag ${direct?'direct':'standard'}">${direct?'Direct Sales':'Division Sales'}</span></div></div>
+    <div class="card" style="background:linear-gradient(135deg, rgba(63,167,150,0.1), var(--panel));"><div style="display:flex; justify-content:space-between; align-items:center;"><div><div style="font-size:11px; color:var(--ink-dim);">Commission this month</div><div style="font-family:var(--font-mono); font-weight:700; font-size:20px; color:var(--teal); margin-top:2px;">${fmtMoney(comm.amount)} <span style="font-size:12px;">EGP</span></div></div><div style="text-align:left; font-size:10.5px; color:var(--ink-faint); font-family:var(--font-mono);">${fmtMoney(comm.rate)}/M<br>on ${fmtMoney(comm.sales)} EGP</div></div></div>
+    <div class="section-label">Profile</div>
+    <div class="card">
+      <div class="profile-field"><label>Name</label><input type="text" id="editSpName" value="${esc(sp.name)}"></div>
+      <div class="profile-field"><label>Title</label><input type="text" id="editSpTitle" value="${esc(sp.title)}" placeholder="e.g. Senior Sales Consultant"></div>
+      <div class="profile-field"><label>Join Date</label><input type="date" id="editSpJoin" value="${esc(sp.joinDate)}"></div>
+      <div class="profile-field"><label>Type</label><select id="editSpType"><option value="standard" ${!direct?'selected':''}>Division Sales (Commercial/Residential)</option><option value="direct" ${direct?'selected':''}>Direct Sales</option></select></div>
+      <div class="profile-field"><label>Notes</label><textarea id="editSpNotes" placeholder="Performance notes...">${esc(sp.notes)}</textarea></div>
+      <button class="form-submit" id="saveSpProfile">Save Changes</button>
+      <button class="btn-sm danger" id="deleteSpBtn" style="margin-top:10px; padding:11px;">Remove from team</button>
+    </div>
+    ${direct?renderDirectWork(sp,month):renderStandardWork(sp,month,division)}
+    <div class="section-label">Overall Evaluation</div>
+    <div class="card">${(()=>{ const cs=direct?divisionScore(sp.id,'commercial',month):combinedScore(sp.id,month); const has=spHasTarget(cs);
+      return `<div style="text-align:center; margin-bottom:14px;"><div class="score-chip ${scoreClass(cs.composite,has)}" style="font-size:26px; padding:8px 22px;">${has?fmtPct(cs.composite)+'%':'—'}</div><div style="font-size:11px; color:var(--ink-dim); margin-top:8px;">${direct?'Sales 80% · Meetings 15% · Attendance 5%':'Combined: Commercial + Residential'}</div></div><div class="chart-wrap" style="height:180px;"><canvas id="spDonut_${sp.id}"></canvas></div>`;
+    })()}</div>
+    <div class="export-row" style="margin-bottom:20px;"><div class="export-btn whatsapp" data-detail-export-wa="${sp.id}">💬 WhatsApp PDF</div><div class="export-btn xlsx" data-detail-export-xlsx="${sp.id}">📤 Excel</div><div class="export-btn pdf" data-detail-export-pdf="${sp.id}">📤 Save PDF</div></div>`;
+}
+function renderStandardWork(sp,month,division){
+  const o=getSpTargetObj(sp.id,month); const totalT=totalTarget(sp.id,month);
+  const totalSalesAchieved=monthSales(sp.id,'commercial',month)+monthSales(sp.id,'residential',month);
+  const totalResAchieved=monthReservations(sp.id,'commercial',month)+monthReservations(sp.id,'residential',month);
+  const score=combinedScore(sp.id,month); const att=attendanceStats(sp.id,month);
+  const orientTarget=orientationMonthlyTarget(sp.id,month); const orientDone=orientationAchieved(sp.id,month);
+  const info=dailyInfoTotals(sp.id,month); const bStats=brokerStats(sp);
+  return `<div class="section-label">Targets</div>
+    <div class="card">
+      <div class="division-switch" style="margin-bottom:14px;"><button class="division-btn ${o.mode==='total'?'active commercial':''}" data-tmode="total"><span class="sw"></span> Total Target</button><button class="division-btn ${o.mode==='split'?'active residential':''}" data-tmode="split"><span class="sw"></span> Split (Com / Res)</button></div>
+      ${o.mode==='total'?`
+        <div class="target-row"><label>Total Sales Target (EGP)</label><input type="number" inputmode="decimal" data-sptarget="${sp.id}|total|sales" value="${o.total.sales||''}" placeholder="0"></div>
+        <div class="target-implied">Achieved (both divisions): ${fmtMoney(totalSalesAchieved)} EGP</div>
+        <div class="target-row"><label>Reservations Target (count)</label><input type="number" inputmode="numeric" data-sptarget="${sp.id}|total|reservations" value="${o.total.reservations||''}" placeholder="0"></div>
+        <div class="target-implied">Achieved: ${round1(totalResAchieved)}</div>
+      `:`
+        <div style="font-weight:700; font-size:12px; color:var(--gold); margin:2px 0 6px; letter-spacing:0.05em;">COMMERCIAL</div>
+        <div class="target-row"><label>Sales Target (EGP)</label><input type="number" inputmode="decimal" data-sptarget="${sp.id}|commercial|sales" value="${o.commercial.sales||''}" placeholder="0"></div>
+        <div class="target-row"><label>Reservations (count)</label><input type="number" inputmode="numeric" data-sptarget="${sp.id}|commercial|reservations" value="${o.commercial.reservations||''}" placeholder="0"></div>
+        <div style="font-weight:700; font-size:12px; color:var(--teal); margin:14px 0 6px; letter-spacing:0.05em;">RESIDENTIAL</div>
+        <div class="target-row"><label>Sales Target (EGP)</label><input type="number" inputmode="decimal" data-sptarget="${sp.id}|residential|sales" value="${o.residential.sales||''}" placeholder="0"></div>
+        <div class="target-row"><label>Reservations (count)</label><input type="number" inputmode="numeric" data-sptarget="${sp.id}|residential|reservations" value="${o.residential.reservations||''}" placeholder="0"></div>
+        <div class="target-implied" style="margin-top:10px;">Total: ${fmtMoney(totalT.sales)} EGP · ${totalT.reservations} res · Achieved ${fmtMoney(totalSalesAchieved)} EGP / ${round1(totalResAchieved)} res</div>
+      `}
+    </div>
+    <div class="section-label">Orientation Target</div>
+    <div class="card"><div style="font-size:11.5px; color:var(--ink-faint); margin-bottom:10px;">Auto-calculated: ${orientationPerDay()}/day × working days this month (one day off weekly). Change the daily rate in Settings.</div><div class="daily-totals"><div class="daily-total-chip"><div class="v">${orientTarget}</div><div class="l">Monthly Target</div></div><div class="daily-total-chip"><div class="v">${orientDone}</div><div class="l">Achieved</div></div><div class="daily-total-chip"><div class="v">${fmtPct(orientTarget>0?(orientDone/orientTarget)*100:0)}%</div><div class="l">Progress</div></div></div></div>
+    <div class="section-label">Performance</div>
+    <div class="card"><div class="metric-bars" id="metricBarsBlock">${metricBar('Sales',score.pSales,'sales')}${metricBar('Reservations',score.pRes,'reservations')}${metricBar('Orientation',score.pOrient,'appointments')}${metricBar('Attendance',score.pAtt,'sales')}</div></div>
+    <div class="section-label">Attendance — ${monthLabel(month)}</div>
+    <div class="card"><div class="daily-totals"><div class="daily-total-chip"><div class="v">${fmtPct(att.pct)}%</div><div class="l">Compliance</div></div><div class="daily-total-chip"><div class="v">${att.onTimeInDays}</div><div class="l">On-time in</div></div><div class="daily-total-chip"><div class="v">${att.onTimeOutDays}</div><div class="l">On-time out</div></div></div>${renderAttendanceGrid(sp,month)}</div>
+    <div class="section-label">Daily Orientations — ${monthLabel(month)}</div>
+    <div class="card"><div class="daily-totals"><div class="daily-total-chip"><div class="v">${orientDone}</div><div class="l">Orientations</div></div><div class="daily-total-chip"><div class="v">${info.interested}</div><div class="l">Interested</div></div><div class="daily-total-chip"><div class="v">${info.notInterested}</div><div class="l">Not Int.</div></div></div>${renderInfoGrid(sp,month)}</div>
+    <div class="section-label">Broker Accounts</div>
+    <div class="card">
+      <div class="profile-field"><label>Total broker accounts</label><select id="brokerCountSelect" data-brokercount="${sp.id}">${Array.from({length:301}).map((_,n)=>`<option value="${n}" ${(Number(sp.brokerCount)||0)===n?'selected':''}>${n}</option>`).join('')}</select></div>
+      <div class="broker-stats"><div class="broker-stat"><div class="v">${bStats.total}</div><div class="l">Total</div></div><div class="broker-stat"><div class="v">${bStats.exclusive}</div><div class="l">Exclusive (top)</div></div><div class="broker-stat"><div class="v">${bStats.shared}</div><div class="l">Shared (top)</div></div></div>
+      <div style="font-size:11px; color:var(--ink-faint); margin:4px 0 12px; line-height:1.6;">List the most important broker companies for this salesperson.</div>
+      ${sp.brokerAccounts.map((acc,i)=>`<div class="broker-row"><span style="flex:0 0 22px; font-size:10.5px; color:var(--ink-faint); font-family:var(--font-mono); text-align:center;">${i+1}</span><input type="text" placeholder="Company name" value="${esc(acc.name)}" data-broker-field="${sp.id}|${acc.id}|name"><input type="text" class="share-input" placeholder="Shared with" value="${esc(acc.sharedWith||'')}" data-broker-field="${sp.id}|${acc.id}|sharedWith"><button class="broker-del" data-broker-del="${sp.id}|${acc.id}">✕</button></div>`).join('')}
+      <button class="broker-add-btn" data-broker-add="${sp.id}">+ Add Company</button>
+    </div>`;
+}
+function renderDirectWork(sp,month){
+  const target=getTarget(sp.id,'commercial',month); const score=divisionScore(sp.id,'commercial',month);
+  const salesActual=monthSales(sp.id,'commercial',month); const att=attendanceStats(sp.id,month);
+  const info=dailyInfoTotals(sp.id,month); const meetTarget=meetingsMonthlyTarget(sp.id,month); const meetDone=meetingsAchieved(sp.id,month);
+  return `<div class="section-label">Sales Target</div>
+    <div class="card"><div class="target-row"><label>Sales Target (EGP)</label><input type="number" inputmode="decimal" data-sptarget="${sp.id}|total|sales" value="${target.sales||''}" placeholder="0"></div><div class="target-implied">Sales come automatically from Done Deals. Achieved: ${fmtMoney(salesActual)} EGP</div></div>
+    <div class="section-label">Meetings Target</div>
+    <div class="card"><div style="font-size:11.5px; color:var(--ink-faint); margin-bottom:10px;">Monthly target: ${meetingsPerMonth()} meetings (editable in Settings). Counts as 15% of the Direct Sales evaluation.</div><div class="daily-totals"><div class="daily-total-chip"><div class="v">${meetTarget}</div><div class="l">Monthly Target</div></div><div class="daily-total-chip"><div class="v">${meetDone}</div><div class="l">Achieved</div></div><div class="daily-total-chip"><div class="v">${fmtPct(meetTarget>0?(meetDone/meetTarget)*100:0)}%</div><div class="l">Progress</div></div></div></div>
+    <div class="section-label">Performance</div>
+    <div class="card"><div class="metric-bars" id="metricBarsBlock">${metricBar('Sales',score.pSales,'sales')}${metricBar('Meetings',score.pMeet,'appointments')}${metricBar('Attendance',score.pAtt,'reservations')}</div><div style="font-size:11px; color:var(--ink-faint); margin-top:6px; line-height:1.6;">Direct evaluation: Sales 80% · Meetings 15% · Attendance 5%.</div></div>
+    <div class="section-label">Attendance — ${monthLabel(month)}</div>
+    <div class="card"><div class="daily-totals"><div class="daily-total-chip"><div class="v">${fmtPct(att.pct)}%</div><div class="l">Compliance</div></div><div class="daily-total-chip"><div class="v">${att.onTimeInDays}</div><div class="l">On-time in</div></div><div class="daily-total-chip"><div class="v">${att.onTimeOutDays}</div><div class="l">On-time out</div></div></div>${renderAttendanceGrid(sp,month)}</div>
+    <div class="section-label">Daily Meetings & Leads — ${monthLabel(month)}</div>
+    <div class="card"><div style="font-size:11.5px; color:var(--ink-faint); margin-bottom:10px;">Record meetings (counts toward the 15%). Each lead is rated Interested or Not Interested — Total Leads = their sum.</div><div class="daily-totals"><div class="daily-total-chip"><div class="v">${meetDone}</div><div class="l">Meetings</div></div><div class="daily-total-chip"><div class="v">${orientationAchieved(sp.id,month)}</div><div class="l">Total Leads</div></div><div class="daily-total-chip"><div class="v">${info.interested}</div><div class="l">Interested</div></div></div>${renderInfoGrid(sp,month)}</div>`;
+}
+function workingDaysList(month){ const totalDays=daysInMonth(month); const off=(DB.dayOff!==undefined?DB.dayOff:5); const list=[]; for(let d=1;d<=totalDays;d++){ if(isWorkingDay(month,d,off)) list.push(d); } return list; }
+function renderAttendanceGrid(sp,month){
+  const days_all=workingDaysList(month); const chunkIdx=DB._dailyChunk||0; const startIdx=chunkIdx*6; const days=days_all.slice(startIdx,startIdx+6); const maxChunks=Math.ceil(days_all.length/6);
+  return `<div style="display:flex; align-items:center; justify-content:space-between; margin:6px 0 10px;"><button class="btn-sm" id="dailyChunkPrev" style="flex:0 0 auto; padding:6px 14px;" ${chunkIdx<=0?'disabled':''}>‹</button><span style="font-size:11.5px; color:var(--ink-dim);">Days ${days[0]} – ${days[days.length-1]}</span><button class="btn-sm" id="dailyChunkNext" style="flex:0 0 auto; padding:6px 14px;" ${chunkIdx>=maxChunks-1?'disabled':''}>›</button></div>
+    <div class="att-head"><span>Day</span><span>Arrival</span><span>Departure</span></div>
+    <div class="att-grid">${days.map(d=>{ const rec=getDaily(sp.id,month,d); return `<div class="att-row"><span class="att-day">${d} ${weekdayShort(month,d)}</span><div class="att-seg" data-attseg="${sp.id}|${month}|${d}|attendIn"><button type="button" class="att-seg-btn ${rec.attendIn==='ontime'?'active good':''}" data-val="ontime">On time</button><button type="button" class="att-seg-btn ${rec.attendIn==='late'?'active bad':''}" data-val="late">Late</button></div><div class="att-seg" data-attseg="${sp.id}|${month}|${d}|attendOut"><button type="button" class="att-seg-btn ${rec.attendOut==='ontime'?'active good':''}" data-val="ontime">On time</button><button type="button" class="att-seg-btn ${rec.attendOut==='early'?'active bad':''}" data-val="early">Early</button></div></div>`; }).join('')}</div>`;
+}
+function renderInfoGrid(sp,month){
+  const days_all=workingDaysList(month); const chunkIdx=DB._infoChunk||0; const perPage=6; const startIdx=chunkIdx*perPage; const days=days_all.slice(startIdx,startIdx+perPage); const maxChunks=Math.ceil(days_all.length/perPage); const direct=isDirect(sp.id);
+  return `<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;"><button class="btn-sm" id="infoChunkPrev" style="flex:0 0 auto; padding:6px 14px;" ${chunkIdx<=0?'disabled':''}>‹</button><span style="font-size:11.5px; color:var(--ink-dim);">Days ${days[0]} – ${days[days.length-1]}</span><button class="btn-sm" id="infoChunkNext" style="flex:0 0 auto; padding:6px 14px;" ${chunkIdx>=maxChunks-1?'disabled':''}>›</button></div>
+    <div class="daily-grid" style="grid-template-columns: repeat(6, minmax(0,1fr));">${days.map(d=>{ const dd=getDaily(sp.id,month,d);
+      if(direct){ return `<div class="day-col"><h5>${d} ${weekdayShort(month,d)}</h5><div class="dlabel">Meetings</div><input type="number" inputmode="numeric" data-daily="${sp.id}|${month}|${d}|meetings" value="${dd.meetings||''}" placeholder="0"><div class="dlabel">Inter.</div><input type="number" inputmode="numeric" data-daily="${sp.id}|${month}|${d}|interested" value="${dd.interested||''}" placeholder="0"><div class="dlabel">Not Int.</div><input type="number" inputmode="numeric" data-daily="${sp.id}|${month}|${d}|notInterested" value="${dd.notInterested||''}" placeholder="0"></div>`; }
+      const orientVal=Math.min(Number(dd.orientation)||0,5); const companies=Array.isArray(dd.orientCompanies)?dd.orientCompanies:[];
+      return `<div class="day-col"><h5>${d} ${weekdayShort(month,d)}</h5><div class="dlabel">Orient. count</div><select data-daily="${sp.id}|${month}|${d}|orientation">${[0,1,2,3,4,5].map(n=>`<option value="${n}" ${orientVal===n?'selected':''}>${n}</option>`).join('')}</select>${orientVal>0?Array.from({length:orientVal}).map((_,i)=>`<div class="dlabel" style="margin-top:3px;">Company ${i+1}</div><input type="text" data-daily-company="${sp.id}|${month}|${d}|${i}" value="${esc(companies[i]||'')}" placeholder="Name">`).join(''):''}</div>`;
+    }).join('')}</div>`;
+}
+
+// ============================================================
+// DEALS
+// ============================================================
+function renderDealsView(){
+  const divFilter=DB._dealsFilter||'all'; const statusFilter=DB._dealsStatus||'all';
+  let deals=DB.doneDeals.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  if(divFilter==='commercial'||divFilter==='residential') deals=deals.filter(d=>d.division===divFilter);
+  if(statusFilter==='complete') deals=deals.filter(d=>isDealComplete(d));
+  if(statusFilter==='incomplete') deals=deals.filter(d=>!isDealComplete(d));
+  // FIX: team value = sum of credited shares (no double counting for in-team, external portion excluded)
+  const totalValue=deals.reduce((s,d)=>s+dealCredit(d),0);
+  return `<div class="stat-grid"><div class="stat-card"><div class="num">${deals.length}</div><div class="lbl">Total Deals</div></div><div class="stat-card"><div class="num">${fmtMoney(totalValue)}</div><div class="lbl">Team Value (EGP)</div></div></div>
+    <div class="filter-row" style="margin-top:14px;"><div class="filter-chip ${divFilter==='all'?'active':''}" data-deal-filter="all">All</div><div class="filter-chip ${divFilter==='commercial'?'active':''}" data-deal-filter="commercial">Commercial</div><div class="filter-chip ${divFilter==='residential'?'active':''}" data-deal-filter="residential">Residential</div></div>
+    <div class="filter-row"><div class="filter-chip ${statusFilter==='all'?'active':''}" data-deal-status="all">Any status</div><div class="filter-chip ${statusFilter==='complete'?'active':''}" data-deal-status="complete">Down paid</div><div class="filter-chip ${statusFilter==='incomplete'?'active':''}" data-deal-status="incomplete">Down pending</div></div>
+    <button class="add-btn" style="width:100%; padding:12px; margin-bottom:14px;" id="openAddDeal">+ Add Done Deal</button>
+    <div class="export-row" style="margin-bottom:16px;"><div class="export-btn xlsx" id="exportDealsXlsx">📤 Excel</div><div class="export-btn pdf" id="exportDealsPdf">📤 Save PDF</div></div>
+    ${deals.length>0?`<div class="btn-sm danger" id="clearDealsBtn" style="margin-bottom:16px; padding:11px;">🗑 Clear all done deals</div>`:''}
+    ${deals.length===0?`<div class="empty-state"><div class="ico">🤝</div><p>No deals recorded yet.</p></div>`:deals.map(d=>{ const complete=isDealComplete(d); const credit=dealCredit(d); const shareNote=d.share&&d.share.enabled?` · Share ${d.role==='partner'?(100-d.share.pct):d.share.pct}% (${d.share.scope==='inteam'?'in-team':'external'})`:'';
+      return `<div class="entry-card" style="${complete?'':'border-color:var(--terra-dim); background:rgba(201,96,63,0.06);'}"><div class="entry-top"><div><div class="entry-name">${esc(d.client)} <span class="entry-tag ${d.division}">${divisionLabel(d.division)}</span>${complete?'':' <span class="entry-tag" style="background:rgba(217,98,79,0.18); color:var(--bad);">Down pending</span>'}</div><div class="entry-meta">Unit: ${esc(d.unitCode||'—')} · ${esc(spName(d.spId))} · ${d.date||'—'}${shareNote}${d.phone?'<br>📞 '+esc(d.phone):''}<br>Source: ${esc(d.source||'—')} · Down: ${d.downPct||0}%${d.downFull?' (paid)':(d.downRemainDate?(' · remaining by '+d.downRemainDate):'')}</div></div><div style="text-align:left;"><div class="entry-value">${fmtMoney(credit)} EGP</div>${d.share&&d.share.enabled?`<div style="font-size:9px; color:var(--ink-faint);">of ${fmtMoney(d.value)}</div>`:''}<div class="entry-actions"><button class="entry-iconbtn edit" data-deal-edit="${d.id}" title="Edit">✎</button><button class="entry-iconbtn del" data-deal-del="${d.id}" title="Delete">✕</button></div></div></div></div>`;
+    }).join('')}`;
+}
+
+// ============================================================
+// RESERVATIONS
+// ============================================================
+function renderReservationsView(){
+  const divFilter=DB._resFilter||'all'; let items=DB.reservations.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  if(divFilter==='commercial'||divFilter==='residential') items=items.filter(d=>d.division===divFilter);
+  const totalPaid=items.reduce((s,d)=>s+reservationCreditValue(d),0);
+  return `<div class="stat-grid"><div class="stat-card"><div class="num">${items.length}</div><div class="lbl">Total Reservations</div></div><div class="stat-card"><div class="num">${fmtMoney(totalPaid)}</div><div class="lbl">Team Paid (EGP)</div></div></div>
+    <div class="filter-row" style="margin-top:14px;"><div class="filter-chip ${divFilter==='all'?'active':''}" data-res-filter="all">All</div><div class="filter-chip ${divFilter==='commercial'?'active':''}" data-res-filter="commercial">Commercial</div><div class="filter-chip ${divFilter==='residential'?'active':''}" data-res-filter="residential">Residential</div></div>
+    <button class="add-btn" style="width:100%; padding:12px; margin-bottom:14px;" id="openAddRes">+ Add Reservation</button>
+    <div class="export-row" style="margin-bottom:16px;"><div class="export-btn xlsx" id="exportResXlsx">📤 Excel</div><div class="export-btn pdf" id="exportResPdf">📤 Save PDF</div></div>
+    ${items.length>0?`<div class="btn-sm danger" id="clearResBtn" style="margin-bottom:16px; padding:11px;">🗑 Clear all reservations</div>`:''}
+    ${items.length===0?`<div class="empty-state"><div class="ico">📑</div><p>No reservations recorded yet.</p></div>`:items.map(d=>{ const credit=reservationCreditValue(d); const shareNote=d.share&&d.share.enabled?` · Share ${d.role==='partner'?(100-d.share.pct):d.share.pct}% (${d.share.scope==='inteam'?'in-team':'external'})`:'';
+      return `<div class="entry-card"><div class="entry-top"><div><div class="entry-name">${esc(d.client)} <span class="entry-tag ${d.division}">${divisionLabel(d.division)}</span></div><div class="entry-meta">Unit: ${esc(d.unitCode||'—')} · ${esc(spName(d.spId))} · ${d.date||'—'}${shareNote}${d.phone?'<br>📞 '+esc(d.phone):''}<br>Source: ${esc(d.source||'—')}</div></div><div style="text-align:right;"><div class="entry-value" style="color:var(--teal);">${fmtMoney(credit)} EGP</div>${d.share&&d.share.enabled?`<div style="font-size:9px; color:var(--ink-faint);">of ${fmtMoney(d.value)}</div>`:''}</div></div>${d.image?`<img src="${d.image}" data-res-img="${d.id}" style="width:100%; max-height:160px; object-fit:cover; border-radius:9px; border:1px solid var(--line); margin-top:10px; cursor:pointer;">`:''}<div class="res-action-row"><button class="res-action-btn deal" data-res-to-deal="${d.id}">✓ Done Deal</button><button class="res-action-btn cancel" data-res-to-cancel="${d.id}">✕ Cancel</button><button class="res-action-btn edit" data-res-edit="${d.id}">✎</button><button class="res-action-btn del" data-res-del="${d.id}">🗑</button></div></div>`;
+    }).join('')}`;
+}
+
+// ============================================================
+// CANCELLATIONS
+// ============================================================
+function renderCancellationsView(){
+  const filter=DB._cancelFilter||'all'; let items=DB.cancellations.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  if(filter==='commercial'||filter==='residential') items=items.filter(d=>d.division===filter);
+  return `<div class="stat-grid"><div class="stat-card wide"><div class="num">${items.length}</div><div class="lbl">Total Cancellations</div></div></div>
+    <div class="filter-row" style="margin-top:14px;"><div class="filter-chip ${filter==='all'?'active':''}" data-cancel-filter="all">All</div><div class="filter-chip ${filter==='commercial'?'active':''}" data-cancel-filter="commercial">Commercial</div><div class="filter-chip ${filter==='residential'?'active':''}" data-cancel-filter="residential">Residential</div></div>
+    <button class="add-btn" style="width:100%; padding:12px; margin-bottom:14px;" id="openAddCancel">+ Add Cancellation</button>
+    <div class="export-row" style="margin-bottom:16px;"><div class="export-btn xlsx" id="exportCancelXlsx">📤 Excel</div><div class="export-btn pdf" id="exportCancelPdf">📤 Save PDF</div></div>
+    ${items.length>0?`<div class="btn-sm danger" id="clearCancelBtn" style="margin-bottom:16px; padding:11px;">🗑 Clear all cancellations</div>`:''}
+    ${items.length===0?`<div class="empty-state"><div class="ico">🚫</div><p>No cancellations recorded yet.</p></div>`:items.map(d=>`<div class="entry-card"><div class="entry-top"><div><div class="entry-name">${esc(d.client)} <span class="entry-tag ${d.division}">${divisionLabel(d.division)}</span></div><div class="entry-meta">Unit: ${esc(d.unitCode||'—')} · ${esc(spName(d.spId))} · ${d.date||'—'}${d.phone?'<br>📞 '+esc(d.phone):''}<br>Source: ${esc(d.source||'—')}</div></div><button class="entry-del" data-cancel-del="${d.id}" style="background:none;border:none;color:var(--ink-faint);font-size:16px;cursor:pointer;padding:2px 6px;">✕</button></div><div class="entry-reason">Reason: ${esc(d.reason||'—')}</div></div>`).join('')}`;
+}
+
+// ============================================================
+// REPORTS  +  COMMISSION (auto-calculated from credited deals)
+// ============================================================
+function renderCommissionSummary(month){
+  const mc=managerCommission(month);
+  const rows=DB.salespeople.map(sp=>({sp,c:spCommission(sp.id,month)}));
+  const totalSpComm=rows.reduce((s,r)=>s+r.c.amount,0);
+  const g='display:grid; grid-template-columns:1fr 1fr 0.9fr; gap:8px; align-items:center;';
+  return `<div class="section-label">Commission — ${monthLabel(month)}</div>
+    <div style="font-size:11.5px; color:var(--ink-faint); margin:-4px 0 12px; line-height:1.6;">Auto-calculated from credited Done Deals — each salesperson's real share of any shared deal (30/50/70%). Rates are set in Settings.</div>
+    <div class="md-summary-card">
+      <div style="font-size:11.5px; color:var(--ink-dim);">My Commission (Manager)${(DB.salesLog&&DB.salesLog.managerName)?` — <b style="color:var(--gold);">${esc(DB.salesLog.managerName)}</b>`:''}</div>
+      <div style="font-family:var(--font-mono); font-weight:700; font-size:26px; color:var(--gold); margin-top:2px;">${fmtMoney(mc.total)} EGP</div>
+      <div class="md-summary-grid">
+        <div class="md-summary-item"><div class="v">${fmtMoney(mc.stdAmount)} EGP</div><div class="l">Division · ${fmtMoney(mc.stdRate)}/M (${fmtPct(mc.stdPctOfTarget)}% of target)</div></div>
+        <div class="md-summary-item"><div class="v">${fmtMoney(mc.directAmount)} EGP</div><div class="l">Direct · ${fmtMoney(mc.directRate)}/M</div></div>
+      </div>
+    </div>
+    <div style="${g} padding:0 4px 6px; font-size:10px; color:var(--ink-faint); font-weight:700; letter-spacing:0.04em;"><span>SALESPERSON</span><span style="text-align:right;">CREDITED SALES</span><span style="text-align:right;">COMMISSION</span></div>
+    ${rows.length===0?`<div class="empty-state"><div class="ico">💰</div><p>No salespeople yet.</p></div>`:rows.map(({sp,c})=>`<div style="${g} background:linear-gradient(180deg,#181F25,var(--panel)); border:1px solid var(--line); border-radius:9px; padding:11px 10px; margin-bottom:7px;"><span style="font-size:13px; font-weight:600; line-height:1.4;">${esc(sp.name)}${isDirect(sp.id)?' <span style="font-size:9px; color:#a78bf0;">·Direct</span>':''}<br><span style="font-size:9.5px; color:var(--ink-faint); font-family:var(--font-mono);">${fmtMoney(c.rate)}/M${isDirect(sp.id)?'':(' · '+(c.tier==='high'?'≥':'<')+DB.commissionTiers.stdThreshold+'% target')}</span></span><span style="font-family:var(--font-mono); font-size:12.5px; text-align:right;">${fmtMoney(c.sales)}</span><span style="font-family:var(--font-mono); font-size:13px; text-align:right; color:var(--teal);">${fmtMoney(c.amount)}</span></div>`).join('')}
+    <div class="md-summary-card" style="margin-top:2px;"><div class="md-summary-grid" style="border-top:none; padding-top:0; margin-top:0;"><div class="md-summary-item"><div class="v" style="color:var(--teal);">${fmtMoney(totalSpComm)} EGP</div><div class="l">Team Commission (sum)</div></div><div class="md-summary-item"><div class="v" style="color:var(--gold);">${fmtMoney(mc.total)} EGP</div><div class="l">My Commission</div></div></div></div>`;
+}
+function renderReportsView(){
+  const month=DB.currentMonth; const list=DB.salespeople;
+  let teamSales=0,teamTarget=0,teamRes=0;
+  list.forEach(sp=>{ teamSales+=monthSales(sp.id,'commercial',month)+monthSales(sp.id,'residential',month); teamTarget+=getTarget(sp.id,'commercial',month).sales+getTarget(sp.id,'residential',month).sales; teamRes+=monthReservations(sp.id,'commercial',month)+monthReservations(sp.id,'residential',month); });
+  const teamPct=teamTarget>0?(teamSales/teamTarget)*100:0;
+  const divisionPeople=list.filter(sp=>!isDirect(sp.id)); const directPeople=list.filter(sp=>isDirect(sp.id));
+  const renderRow=(sp)=>{ const cs=isDirect(sp.id)?divisionScore(sp.id,'commercial',month):combinedScore(sp.id,month); const has=spHasTarget(cs);
+    return `<div class="card" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;"><div><div class="sp-name">${esc(sp.name)}</div><div class="sp-sub" style="text-align:right; direction:ltr;">Score: <span class="score-chip ${scoreClass(cs.composite,has)}" style="padding:2px 8px; font-size:12px;">${has?fmtPct(cs.composite)+'%':'—'}</span></div></div><div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end;"><div class="btn-sm" data-open-sp="${sp.id}">View</div><div class="btn-sm whatsapp" data-sp-export-wa="${sp.id}">WA PDF</div><div class="btn-sm" data-sp-export-xlsx="${sp.id}">Excel</div><div class="btn-sm" data-sp-export-pdf="${sp.id}">PDF</div></div></div>`; };
+  return `${renderSalesLogView()}
+    <div class="section-label">Team Overview — ${monthLabel(month)}</div>
+    <div class="stat-grid"><div class="stat-card"><div class="num">${fmtPct(teamPct)}%</div><div class="lbl">Team target achieved</div></div><div class="stat-card"><div class="num">${fmtMoney(teamSales)}</div><div class="lbl">Team Sales (EGP)</div></div><div class="stat-card"><div class="num">${round1(teamRes)}</div><div class="lbl">Total Reservations</div></div><div class="stat-card"><div class="num">${DB.doneDeals.filter(d=>!isDealComplete(d)).length}</div><div class="lbl">Down pending deals</div></div></div>
+    <div class="chart-card"><h3>Each salesperson's evaluation</h3><div class="chart-wrap"><canvas id="chartTeamBar"></canvas></div></div>
+    ${renderCommissionSummary(month)}
+    <div class="section-label">Full Team Report</div>
+    <div class="export-row" style="margin-bottom:18px;"><div class="export-btn whatsapp" id="exportTeamWa">💬 WhatsApp PDF</div><div class="export-btn xlsx" id="exportTeamXlsx">📤 Team Excel</div><div class="export-btn pdf" id="exportTeamPdf">📤 Save Team PDF</div></div>
+    ${divisionPeople.length?`<div class="section-label">Division Sales</div>${divisionPeople.map(renderRow).join('')}`:''}
+    ${directPeople.length?`<div class="section-label">Direct Sales</div>${directPeople.map(renderRow).join('')}`:''}`;
+}
+function renderTeamChart(){
+  if(DB.activeTab!=='reports') return; const canvas=document.getElementById('chartTeamBar'); if(!canvas) return; const wrap=canvas.parentElement;
+  ensureChart().then(ok=>{ if(!ok||typeof Chart==='undefined'){ if(wrap) wrap.innerHTML='<p style="font-size:12px; color:var(--ink-faint); text-align:center; padding-top:80px;">Charts need an internet connection.</p>'; return; } if(DB.activeTab!=='reports') return; const c=document.getElementById('chartTeamBar'); if(!c) return; const month=DB.currentMonth; const list=DB.salespeople; const labels=list.map(sp=>sp.name); const data=list.map(sp=>{ const cs=isDirect(sp.id)?divisionScore(sp.id,'commercial',month):combinedScore(sp.id,month); return Math.round(cs.composite*10)/10; }); const colors=data.map(v=>v>=90?'#4FAE7A':v>=60?'#D9A441':'#D9624F'); if(window._teamChart) window._teamChart.destroy(); window._teamChart=new Chart(c,{type:'bar',data:{labels,datasets:[{data,backgroundColor:colors,borderRadius:6,maxBarThickness:34}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:(x)=>x.parsed.y+'%'}}},scales:{y:{beginAtZero:true,ticks:{color:'#8FA0A8',callback:(v)=>v+'%'},grid:{color:'#28333A'}},x:{ticks:{color:'#8FA0A8',font:{size:11}},grid:{display:false}}}}}); });
+}
+function renderSpDonut(spId){
+  const canvas=document.getElementById('spDonut_'+spId); if(!canvas) return; const wrap=canvas.parentElement;
+  ensureChart().then(ok=>{ if(!ok||typeof Chart==='undefined'){ if(wrap) wrap.innerHTML='<p style="font-size:12px; color:var(--ink-faint); text-align:center; padding-top:60px;">Charts need an internet connection.</p>'; return; } const c=document.getElementById('spDonut_'+spId); if(!c) return; const month=DB.currentMonth; const direct=isDirect(spId); const cs=direct?divisionScore(spId,'commercial',month):combinedScore(spId,month); if(window['_donut_'+spId]) window['_donut_'+spId].destroy(); const labels=direct?['Sales','Meetings','Attendance']:['Sales','Reservations','Orientation','Attendance']; const vals=direct?[cs.pSales,cs.pMeet,cs.pAtt].map(v=>Math.round(v*10)/10):[cs.pSales,cs.pRes,cs.pOrient,cs.pAtt].map(v=>Math.round(v*10)/10); window['_donut_'+spId]=new Chart(c,{type:'doughnut',data:{labels,datasets:[{data:vals,backgroundColor:['#C9A24B','#3FA796','#8a6fd9','#4FAE7A'],borderColor:'#161D22',borderWidth:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#EAF0F2',font:{size:12}}},tooltip:{callbacks:{label:(x)=>x.label+': '+x.parsed+'%'}}}}}); });
+}
+
+// ============================================================
+// SALES LOG (free record — no calculations, no reports)
+// ============================================================
+function renderSalesLogView(){
+  const month=DB.currentMonth; const auto=salesLogAutoRows(month); const totals=salesLogTotals(month); const mgrName=DB.salesLog.managerName||'';
+  const g='display:grid; grid-template-columns:1fr 56px 1.1fr; gap:8px; align-items:center;';
+  return `<div class="section-label">Sales Log</div>
+    <div style="font-size:12px; color:var(--ink-dim); margin:-4px 0 12px; line-height:1.7;">Completed Done Deals flow in here automatically for each team salesperson — contracts count and your team's credited share. Add manual rows for old or departed salespeople. These totals stay out of every score, commission, and the exported team report.</div>
+    <div class="md-row" style="margin-bottom:14px;"><div class="md-field"><label>Manager name (shown on the total below)</label><input type="text" id="slManagerName" value="${esc(mgrName)}" placeholder="Your name"></div></div>
+    <div style="${g} padding:0 4px 6px; font-size:10px; color:var(--ink-faint); font-weight:700; letter-spacing:0.04em;"><span>SALESPERSON</span><span style="text-align:right;">CONTRACTS</span><span style="text-align:right;">VALUE (EGP)</span></div>
+    ${auto.map(r=>`<div style="${g} background:linear-gradient(180deg,#181F25,var(--panel)); border:1px solid var(--line); border-radius:9px; padding:11px 10px; margin-bottom:7px;"><span style="font-size:13px; font-weight:600;">${esc(r.name)}</span><span style="font-family:var(--font-mono); font-size:13.5px; text-align:right;">${r.count}</span><span style="font-family:var(--font-mono); font-size:13.5px; text-align:right; color:var(--good);">${fmtMoney(r.value)}</span></div>`).join('')}
+    ${DB.salesLog.rows.length?`<div style="font-size:10px; color:var(--ink-faint); margin:14px 4px 7px; font-weight:700; letter-spacing:0.05em;">MANUAL ROWS · OLD / DEPARTED</div>`:''}
+    ${DB.salesLog.rows.map((r,i)=>`<div class="md-row"><div class="md-row-head"><input type="text" placeholder="Salesperson name" value="${esc(r.name)}" data-slm-field="${r.id}|name"><button class="md-iconbtn" data-slm-up="${r.id}" ${i===0?'disabled':''} title="Move up">↑</button><button class="md-iconbtn" data-slm-down="${r.id}" ${i===DB.salesLog.rows.length-1?'disabled':''} title="Move down">↓</button><button class="md-iconbtn del" data-slm-del="${r.id}" title="Delete">✕</button></div><div class="md-row-body"><div class="md-field"><label>Contracts</label><input type="number" inputmode="numeric" placeholder="0" value="${r.count||''}" data-slm-field="${r.id}|count"></div><div class="md-field"><label>Value (EGP)</label><input type="number" inputmode="decimal" placeholder="0" value="${salesLogManualValue(r)||''}" data-slm-field="${r.id}|value"></div></div></div>`).join('')}
+    <button class="md-add-btn" id="slAddRow">+ Add manual salesperson</button>
+    <div class="md-summary-card" style="margin-top:4px;"><div style="font-size:11.5px; color:var(--ink-dim);">Total — <span id="slMgrLabel" style="color:var(--gold); font-weight:700;">${esc(mgrName||'Manager')}</span></div><div class="md-summary-grid"><div class="md-summary-item"><div class="v" style="color:var(--teal);" id="slTotalValue">${fmtMoney(totals.value)} EGP</div><div class="l">Total Team Sales</div></div><div class="md-summary-item"><div class="v" id="slTotalCount">${totals.count}</div><div class="l">Total Contracts</div></div></div></div>
+    <div style="height:8px;"></div>`;
+}
+function updateSalesLogFooter(){ const totals=salesLogTotals(DB.currentMonth); const ev=document.getElementById('slTotalValue'); const ec=document.getElementById('slTotalCount'); if(ev) ev.textContent=fmtMoney(totals.value)+' EGP'; if(ec) ec.textContent=totals.count; }
+
+// ============================================================
+// MY DAY
+// ============================================================
+function renderMyDayView(){
+  refreshMyTasksIfNewDay(); const tasks=DB.myTasks.template; const done=tasks.filter((_,i)=>DB.myTasks.checked[i]).length; const pct=tasks.length>0?Math.round(done/tasks.length*100):0; const today=new Date(); const dateLabel=today.toLocaleDateString('en-US',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  return `<div class="quote-banner"><p>على كل رجل أن يعاني من ألم الانضباط<br>أو ألم الندم</p><span>Daily Discipline</span></div>
+    <div class="section-label">My Daily Tasks</div>
+    <div style="font-size:12px; color:var(--ink-dim); margin:-4px 0 14px; font-family:var(--font-mono);">${dateLabel} · resets every day</div>
+    <div class="task-progress-wrap"><div class="task-progress-bar"><div class="task-progress-fill" style="width:${pct}%"></div></div><div class="task-progress-txt">${done}/${tasks.length}</div></div>
+    ${tasks.length===0?`<div class="empty-state"><div class="ico">✓</div><p>No tasks yet. Add them from Settings.</p></div>`:tasks.map((t,i)=>`<div class="task-item ${DB.myTasks.checked[i]?'done':''}" data-task-toggle="${i}"><div class="task-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6"/></svg></div><div class="task-label">${esc(t)}</div></div>`).join('')}
+    <div style="font-size:11.5px; color:var(--ink-faint); text-align:center; margin-top:14px; line-height:1.6;">Edit or remove these tasks from the Settings tab.</div>`;
+}
+
+// ============================================================
+// SETTINGS
+// ============================================================
+function renderSettingsView(){
+  const w=DB.weights; const sum=w.sales+w.reservations+(w.orientation||0)+w.attendance; const t=DB.commissionTiers; const dayNames=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  return `<div class="section-label">Team Roster</div>
+    <div class="card"><p style="font-size:11.5px; color:var(--ink-faint); margin-bottom:12px; line-height:1.6;">Add or remove salespeople.</p>${DB.salespeople.map(sp=>`<div style="display:flex; align-items:center; justify-content:space-between; padding:9px 0; border-bottom:1px solid var(--line);"><span style="font-size:13.5px; font-weight:600;">${esc(sp.name)}</span><button class="btn-sm danger" data-settings-del-sp="${sp.id}" style="flex:0 0 auto; padding:7px 14px;">Remove</button></div>`).join('')}<button class="add-btn" id="settingsAddSp" style="width:100%; padding:12px; margin-top:14px;">+ Add Salesperson</button></div>
+    <div class="section-label">Evaluation Weights (division sales)</div>
+    <div class="weight-card"><div class="weight-row"><label>Sales</label><input type="range" min="0" max="100" value="${w.sales}" data-weight="sales"><span class="wval">${w.sales}%</span></div><div class="weight-row"><label>Reserv.</label><input type="range" min="0" max="100" value="${w.reservations}" data-weight="reservations"><span class="wval">${w.reservations}%</span></div><div class="weight-row"><label>Orient.</label><input type="range" min="0" max="100" value="${w.orientation||0}" data-weight="orientation"><span class="wval">${w.orientation||0}%</span></div><div class="weight-row"><label>Attend.</label><input type="range" min="0" max="100" value="${w.attendance}" data-weight="attendance"><span class="wval">${w.attendance}%</span></div><div class="weight-sum ${sum!==100?'bad':''}">Total: ${sum}% ${sum!==100?'(should equal 100%)':''}</div><p style="font-size:11px; color:var(--ink-faint); margin-top:10px; line-height:1.6;">Direct Sales always use a fixed split: Sales 80% · Meetings 15% · Attendance 5%.</p></div>
+    <div class="section-label">Orientation, Meetings & Work Week</div>
+    <div class="card"><div class="profile-field"><label>Daily orientation target (per working day)</label><input type="number" inputmode="numeric" data-orientday value="${orientationPerDay()}"></div><div class="profile-field"><label>Direct Sales — monthly meetings target</label><input type="number" inputmode="numeric" data-meetmonth value="${meetingsPerMonth()}"></div><div class="profile-field"><label>Weekly day off</label><select data-dayoff>${dayNames.map((n,i)=>`<option value="${i}" ${((DB.dayOff!==undefined?DB.dayOff:5)===i)?'selected':''}>${n}</option>`).join('')}</select></div><p style="font-size:11px; color:var(--ink-faint); line-height:1.6;">Monthly orientation target = daily target × working days. The Direct Sales meetings target is a fixed monthly number (default 8) and counts as 15% of their evaluation.</p></div>
+    <div class="section-label">Commission Tiers (EGP per million)</div>
+    <div class="card"><p style="font-size:11px; color:var(--ink-faint); margin-bottom:12px; line-height:1.6;">These rates drive each salesperson's commission shown on their profile.</p><div class="profile-field"><label>Standard — below threshold</label><input type="number" data-tier="stdLow" value="${t.stdLow}"></div><div class="profile-field"><label>Standard — at/above threshold</label><input type="number" data-tier="stdHigh" value="${t.stdHigh}"></div><div class="profile-field"><label>Standard threshold (% of target)</label><input type="number" data-tier="stdThreshold" value="${t.stdThreshold}"></div><div class="profile-field"><label>Direct sales (flat)</label><input type="number" data-tier="direct" value="${t.direct}"></div><hr style="border:none; border-top:1px solid var(--line); margin:6px 0 14px;"><div class="profile-field"><label>Manager — std below threshold</label><input type="number" data-tier="mgrLow" value="${t.mgrLow}"></div><div class="profile-field"><label>Manager — std at/above threshold</label><input type="number" data-tier="mgrHigh" value="${t.mgrHigh}"></div><div class="profile-field"><label>Manager threshold (% of team target)</label><input type="number" data-tier="mgrThreshold" value="${t.mgrThreshold}"></div><div class="profile-field"><label>Manager — direct sales (flat)</label><input type="number" data-tier="mgrDirect" value="${t.mgrDirect}"></div></div>
+    <div class="section-label">My Daily Tasks</div>
+    <div class="card"><p style="font-size:11.5px; color:var(--ink-faint); margin-bottom:12px; line-height:1.6;">These appear in "My Day" and reset every day.</p>${DB.myTasks.template.map((t,i)=>`<div class="task-edit-row"><input type="text" value="${esc(t)}" data-taskedit="${i}"><button class="task-del" data-taskdel="${i}">🗑</button></div>`).join('')}<div class="task-edit-row" style="background:transparent; border:1px dashed var(--line);"><input type="text" id="newTaskInput" placeholder="Add a new daily task..."><button class="task-del" id="addTaskBtn" style="color:var(--gold); font-size:22px;">＋</button></div></div>
+    <div class="section-label">Data &amp; Backup</div>
+    <div class="card"><div class="status-pill"><span class="status-dot" style="background:${_hasStorage?'var(--good)':'var(--bad)'};"></span><span class="txt">${storageStatusText()}</span></div><p style="font-size:12.5px; color:var(--ink-dim); line-height:1.7; margin-bottom:14px;">Your data saves automatically. Tap Quick Backup to save a snapshot, then Restore Last Backup to roll back with one tap. The JSON option is an extra off-device copy you can save to Files and restore anytime.</p><div class="export-row" style="margin-bottom:12px;"><div class="export-btn xlsx" id="quickBackupBtn">💾 Quick Backup</div><div class="export-btn" id="quickRestoreBtn" style="color:var(--gold);">↩ Restore Last Backup</div></div><div class="export-row"><div class="export-btn xlsx" id="backupBtn">📤 Backup (JSON)</div><div class="export-btn" id="restoreBtn" style="color:var(--ink);">⬆ Restore (JSON)</div></div><input type="file" id="restoreFile" accept=".json,application/json" style="display:none;"><div class="btn-sm danger" id="wipeBtn" style="margin-top:12px; text-align:center;">Erase all data &amp; reset</div></div>`;
+}
+
+// ============================================================
+// MODALS
+// ============================================================
+function openModal(html){ document.getElementById('modalSheet').innerHTML=html; document.getElementById('modalOverlay').classList.add('open'); }
+function closeModal(){ document.getElementById('modalOverlay').classList.remove('open'); }
+function confirmAction(message,onYes,opts){ opts=opts||{}; openModal(`<div class="modal-head"><h3>${esc(opts.title||'Please confirm')}</h3><button class="modal-close" id="mClose">✕</button></div><p style="font-size:13.5px; color:var(--ink-dim); line-height:1.7; margin-bottom:20px;">${esc(message)}</p><div style="display:flex; gap:10px;"><button class="btn-sm" id="confirmNo" style="flex:1; padding:13px; font-size:14px;">Cancel</button><button class="form-submit" id="confirmYes" style="flex:1; margin-top:0; ${opts.danger?'background:linear-gradient(135deg,#D9624F,#A8412F); color:#fff; box-shadow:none;':''}">${esc(opts.yesLabel||'Confirm')}</button></div>`); document.getElementById('mClose').onclick=closeModal; document.getElementById('confirmNo').onclick=closeModal; document.getElementById('confirmYes').onclick=()=>{ closeModal(); onYes(); }; }
+function readImageResized(file,maxDim,cb){ const reader=new FileReader(); reader.onload=e=>{ const img=new Image(); img.onload=()=>{ let w=img.width,h=img.height; if(w>h){ if(w>maxDim){ h=Math.round(h*maxDim/w); w=maxDim; } } else { if(h>maxDim){ w=Math.round(w*maxDim/h); h=maxDim; } } const c=document.createElement('canvas'); c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h); try{ cb(c.toDataURL('image/jpeg',0.7)); }catch(err){ cb(null); } }; img.onerror=()=>cb(null); img.src=e.target.result; }; reader.onerror=()=>cb(null); reader.readAsDataURL(file); }
+function viewImage(src){ openModal(`<div class="modal-head"><h3>Reservation Photo</h3><button class="modal-close" id="mClose">✕</button></div><img src="${src}" style="width:100%; border-radius:10px;">`); document.getElementById('mClose').onclick=closeModal; }
+function spOptions(exceptId){ return DB.salespeople.filter(s=>s.id!==exceptId).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join(''); }
+
+// ---------- Done Deal: add / edit ----------
+function dealFormHTML(d,isEdit){ d=d||{}; const shared=!!(d.share&&d.share.enabled); const pct=shared?(d.share.pct||50):50;
+  return `<div class="modal-head"><h3>${isEdit?'Edit':'Add'} Done Deal</h3><button class="modal-close" id="mClose">✕</button></div>
+    <div class="form-grid">
+      <div class="form-field full"><label>Client name</label><input type="text" id="dClient" value="${esc(d.client||'')}" placeholder="Client name"></div>
+      <div class="form-field full"><label>Phone number</label><input type="tel" inputmode="tel" id="dPhone" value="${esc(d.phone||'')}" placeholder="e.g. 01xxxxxxxxx"></div>
+      <div class="form-field"><label>Unit Code</label><input type="text" id="dUnit" value="${esc(d.unitCode||'')}" placeholder="e.g. A-1203"></div>
+      <div class="form-field"><label>Division</label><select id="dDivision"><option value="commercial" ${d.division==='commercial'?'selected':''}>Commercial</option><option value="residential" ${d.division==='residential'?'selected':''}>Residential</option></select></div>
+      <div class="form-field"><label>Salesperson</label><select id="dSp" ${shared?'disabled':''}>${DB.salespeople.map(sp=>`<option value="${sp.id}" ${sp.id===d.spId?'selected':''}>${esc(sp.name)}</option>`).join('')}</select></div>
+      <div class="form-field"><label>Deal value (EGP)</label><input type="number" id="dValue" value="${d.value||''}" placeholder="0"></div>
+      <div class="form-field"><label>Date</label><input type="date" id="dDate" value="${d.date||new Date().toISOString().slice(0,10)}"></div>
+      <div class="form-field full"><label>Source</label><input type="text" id="dSource" value="${esc(d.source||'')}" placeholder="e.g. Facebook, referral..."></div>
+    </div>
+    <div class="section-label" style="margin-top:8px;">Down Payment</div>
+    <div class="form-grid">
+      <div class="form-field"><label>Down payment %</label><input type="number" id="dDownPct" value="${d.downPct||''}" placeholder="0" max="100"></div>
+      <div class="form-field"><label>Fully paid?</label><select id="dDownFull"><option value="yes" ${d.downFull?'selected':''}>Yes</option><option value="no" ${!d.downFull?'selected':''}>No</option></select></div>
+      <div class="form-field full" id="dRemainWrap" style="${d.downFull?'display:none;':''}"><label>Remaining down payment due date</label><input type="date" id="dRemainDate" value="${d.downRemainDate||''}"></div>
+      <div class="form-field full"><label>Payment system / plan</label><input type="text" id="dPaySystem" value="${esc(d.paySystem||'')}" placeholder="e.g. 10% down, 6 yrs installments"></div>
+    </div>
+    ${isEdit&&shared?`<div class="section-label" style="margin-top:8px;">Sharing (${d.share.scope==='inteam'?'in-team':'external'})</div><div class="form-field"><label>Primary salesperson's share</label><div class="share-pct-btns" id="sharePctBtns"><button type="button" class="share-pct-btn ${pct===30?'active':''}" data-pct="30">30%</button><button type="button" class="share-pct-btn ${pct===50?'active':''}" data-pct="50">50%</button><button type="button" class="share-pct-btn ${pct===70?'active':''}" data-pct="70">70%</button></div></div><div class="split-preview">To change the partner or scope, delete this deal and add it again.</div>`:(!isEdit?`<div class="section-label" style="margin-top:8px;">Sharing</div><div class="form-field"><label>Is this deal shared?</label><select id="dShared"><option value="no" selected>No</option><option value="yes">Yes</option></select></div><div id="shareBlock" style="display:none;"><div class="form-field"><label>This salesperson's share</label><div class="share-pct-btns" id="sharePctBtns"><button type="button" class="share-pct-btn" data-pct="30">30%</button><button type="button" class="share-pct-btn active" data-pct="50">50%</button><button type="button" class="share-pct-btn" data-pct="70">70%</button></div></div><div class="form-field"><label>Share scope</label><select id="dShareScope"><option value="inteam">Inside the team</option><option value="external">External team</option></select></div><div class="form-field" id="partnerWrap"><label>Partner (in team)</label><select id="dPartner">${spOptions(null)}</select></div><div class="split-preview" id="splitPreview"></div></div>`:'')}
+    <button class="form-submit" id="dSubmit" style="margin-top:12px;">${isEdit?'Save Changes':'Save Deal'}</button>`;
+}
+function readDealBase(){ const downFull=document.getElementById('dDownFull').value==='yes'; return { client:document.getElementById('dClient').value.trim(), unitCode:document.getElementById('dUnit').value.trim(), division:document.getElementById('dDivision').value, value:Number(document.getElementById('dValue').value)||0, date:document.getElementById('dDate').value, phone:document.getElementById('dPhone').value.trim(), source:document.getElementById('dSource').value.trim(), downPct:Number(document.getElementById('dDownPct').value)||0, paySystem:document.getElementById('dPaySystem').value.trim(), downFull, downRemainDate:downFull?'':document.getElementById('dRemainDate').value }; }
+function modalAddDeal(){
+  openModal(dealFormHTML(null,false)); let sharePct=50;
+  const updatePreview=()=>{ const val=Number(document.getElementById('dValue').value)||0; const scope=document.getElementById('dShareScope').value; const primary=Math.round(val*sharePct/100); const partner=val-primary; const prev=document.getElementById('splitPreview'); if(scope==='inteam'){ prev.innerHTML=`This salesperson: <b>${fmtMoney(primary)} EGP</b> (${sharePct}%)<br>Partner (in team): <b>${fmtMoney(partner)} EGP</b> (${100-sharePct}%) — a linked deal will be created automatically.`; } else { prev.innerHTML=`This salesperson: <b>${fmtMoney(primary)} EGP</b> (${sharePct}%)<br>Other ${100-sharePct}% goes to an external team (not tracked here).`; } };
+  document.getElementById('mClose').onclick=closeModal;
+  document.getElementById('dShared').onchange=(e)=>{ document.getElementById('shareBlock').style.display=e.target.value==='yes'?'block':'none'; updatePreview(); };
+  document.getElementById('dDownFull').onchange=(e)=>{ document.getElementById('dRemainWrap').style.display=e.target.value==='yes'?'none':'block'; };
+  document.getElementById('dShareScope').onchange=(e)=>{ document.getElementById('partnerWrap').style.display=e.target.value==='inteam'?'block':'none'; updatePreview(); };
+  document.getElementById('dValue').addEventListener('input',updatePreview);
+  document.querySelectorAll('#sharePctBtns .share-pct-btn').forEach(btn=>{ btn.onclick=()=>{ document.querySelectorAll('#sharePctBtns .share-pct-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); sharePct=Number(btn.dataset.pct); updatePreview(); }; });
+  document.getElementById('dSubmit').onclick=()=>{ const base=readDealBase(); const spId=document.getElementById('dSp').value; if(!base.client||!spId){ showToast('Enter client name and salesperson'); return; } const shared=document.getElementById('dShared').value==='yes'; if(!shared){ DB.doneDeals.push({id:uid(),...base,spId,share:{enabled:false}}); } else { const scope=document.getElementById('dShareScope').value; const linkId=uid(); DB.doneDeals.push({id:uid(),...base,spId,role:'primary',linkId,share:{enabled:true,pct:sharePct,scope,partnerSpId:scope==='inteam'?document.getElementById('dPartner').value:null}}); if(scope==='inteam'){ const partnerId=document.getElementById('dPartner').value; DB.doneDeals.push({id:uid(),...base,spId:partnerId,role:'partner',linkId,share:{enabled:true,pct:sharePct,scope,partnerSpId:spId}}); } } save(); closeModal(); render(); showToast('Deal saved'); };
+}
+function modalEditDeal(id){
+  const rec=DB.doneDeals.find(x=>x.id===id); if(!rec){ showToast('Deal not found'); return; }
+  const shared=!!(rec.share&&rec.share.enabled); const partner=shared&&rec.linkId?DB.doneDeals.find(x=>x.linkId===rec.linkId&&x.id!==rec.id):null;
+  const primary=shared?(rec.role==='partner'?(partner||rec):rec):rec; const partnerRec=shared?(rec.role==='partner'?rec:partner):null;
+  openModal(dealFormHTML(primary,true)); let sharePct=shared?(primary.share.pct||50):50;
+  document.getElementById('mClose').onclick=closeModal;
+  document.getElementById('dDownFull').onchange=(e)=>{ document.getElementById('dRemainWrap').style.display=e.target.value==='yes'?'none':'block'; };
+  if(shared){ document.querySelectorAll('#sharePctBtns .share-pct-btn').forEach(btn=>{ btn.onclick=()=>{ document.querySelectorAll('#sharePctBtns .share-pct-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); sharePct=Number(btn.dataset.pct); }; }); }
+  document.getElementById('dSubmit').onclick=()=>{ const base=readDealBase(); if(!base.client){ showToast('Enter client name'); return; } if(shared){ [primary,partnerRec].forEach(r=>{ if(!r) return; Object.assign(r,base); if(r.share) r.share.pct=sharePct; }); } else { Object.assign(rec,base); rec.spId=document.getElementById('dSp').value; } save(); closeModal(); render(); showToast('Deal updated ✓'); };
+}
+// ---------- Reservation: add / edit ----------
+function resFormHTML(r,isEdit){ r=r||{}; const shared=!!(r.share&&r.share.enabled); const pct=shared?(r.share.pct||50):50;
+  return `<div class="modal-head"><h3>${isEdit?'Edit':'Add'} Reservation</h3><button class="modal-close" id="mClose">✕</button></div>
+    <div class="form-grid">
+      <div class="form-field full"><label>Client name</label><input type="text" id="rClient" value="${esc(r.client||'')}" placeholder="Client name"></div>
+      <div class="form-field full"><label>Phone number</label><input type="tel" inputmode="tel" id="rPhone" value="${esc(r.phone||'')}" placeholder="e.g. 01xxxxxxxxx"></div>
+      <div class="form-field"><label>Unit Code</label><input type="text" id="rUnit" value="${esc(r.unitCode||'')}" placeholder="e.g. A-1203"></div>
+      <div class="form-field"><label>Division</label><select id="rDivision"><option value="commercial" ${r.division==='commercial'?'selected':''}>Commercial</option><option value="residential" ${r.division==='residential'?'selected':''}>Residential</option></select></div>
+      <div class="form-field"><label>Salesperson</label><select id="rSp" ${shared?'disabled':''}>${DB.salespeople.map(sp=>`<option value="${sp.id}" ${sp.id===r.spId?'selected':''}>${esc(sp.name)}</option>`).join('')}</select></div>
+      <div class="form-field"><label>Reservation paid (EGP)</label><input type="number" id="rValue" value="${r.value||''}" placeholder="0"></div>
+      <div class="form-field"><label>Date</label><input type="date" id="rDate" value="${r.date||new Date().toISOString().slice(0,10)}"></div>
+      <div class="form-field full"><label>Source</label><input type="text" id="rSource" value="${esc(r.source||'')}" placeholder="e.g. Facebook, referral..."></div>
+      <div class="form-field full"><label>Reservation form photo</label><input type="file" accept="image/*" id="rImage"><div id="rImagePreview" style="margin-top:8px;">${r.image?`<img src="${r.image}" style="width:100%; max-height:160px; object-fit:contain; border-radius:8px; border:1px solid var(--line);">`:''}</div></div>
+    </div>
+    ${isEdit&&shared?`<div class="section-label" style="margin-top:8px;">Sharing (${r.share.scope==='inteam'?'in-team':'external'})</div><div class="form-field"><label>Primary salesperson's share</label><div class="share-pct-btns" id="sharePctBtnsRes"><button type="button" class="share-pct-btn ${pct===30?'active':''}" data-pct="30">30%</button><button type="button" class="share-pct-btn ${pct===50?'active':''}" data-pct="50">50%</button><button type="button" class="share-pct-btn ${pct===70?'active':''}" data-pct="70">70%</button></div></div><div class="split-preview">To change the partner or scope, delete and add again.</div>`:(!isEdit?`<div class="section-label" style="margin-top:8px;">Sharing</div><div class="form-field"><label>Is this reservation shared?</label><select id="rShared"><option value="no" selected>No</option><option value="yes">Yes</option></select></div><div id="shareBlockRes" style="display:none;"><div class="form-field"><label>This salesperson's share</label><div class="share-pct-btns" id="sharePctBtnsRes"><button type="button" class="share-pct-btn" data-pct="30">30%</button><button type="button" class="share-pct-btn active" data-pct="50">50%</button><button type="button" class="share-pct-btn" data-pct="70">70%</button></div></div><div class="form-field"><label>Share scope</label><select id="rShareScope"><option value="inteam">Inside the team</option><option value="external">External team</option></select></div><div class="form-field" id="partnerWrapRes"><label>Partner (in team)</label><select id="rPartner">${spOptions(null)}</select></div><div class="split-preview" id="splitPreviewRes"></div></div>`:'')}
+    <button class="form-submit" id="rSubmit" style="margin-top:8px;">${isEdit?'Save Changes':'Save Reservation'}</button>`;
+}
+function readResBase(imageData){ return { client:document.getElementById('rClient').value.trim(), unitCode:document.getElementById('rUnit').value.trim(), phone:document.getElementById('rPhone').value.trim(), division:document.getElementById('rDivision').value, value:Number(document.getElementById('rValue').value)||0, date:document.getElementById('rDate').value, source:document.getElementById('rSource').value.trim(), image:imageData }; }
+function modalAddRes(){
+  openModal(resFormHTML(null,false)); let rImageData=null; let rSharePct=50;
+  const rImg=document.getElementById('rImage'); if(rImg) rImg.onchange=(e)=>{ const f=e.target.files[0]; if(!f) return; const prev=document.getElementById('rImagePreview'); prev.innerHTML='<span style="font-size:11.5px; color:var(--ink-faint);">Processing image…</span>'; readImageResized(f,1000,(data)=>{ rImageData=data; prev.innerHTML=data?`<img src="${data}" style="width:100%; max-height:200px; object-fit:contain; border-radius:8px; border:1px solid var(--line);">`:'<span style="font-size:11.5px; color:var(--bad);">Could not read image</span>'; }); };
+  const updateResPreview=()=>{ const val=Number(document.getElementById('rValue').value)||0; const scope=document.getElementById('rShareScope').value; const primary=Math.round(val*rSharePct/100); const partnerVal=val-primary; const prev=document.getElementById('splitPreviewRes'); if(!prev) return; if(scope==='inteam'){ prev.innerHTML=`This salesperson: <b>${fmtMoney(primary)} EGP</b> (${rSharePct}%) — counts as ${(rSharePct/100).toFixed(2)} reservation.<br>Partner (in team): <b>${fmtMoney(partnerVal)} EGP</b> (${100-rSharePct}%) — counts as ${((100-rSharePct)/100).toFixed(2)} reservation. A linked reservation will be created automatically.`; } else { prev.innerHTML=`This salesperson: <b>${fmtMoney(primary)} EGP</b> (${rSharePct}%) — counts as ${(rSharePct/100).toFixed(2)} reservation.<br>Other ${100-rSharePct}% goes to an external team (not tracked here).`; } };
+  document.getElementById('mClose').onclick=closeModal;
+  document.getElementById('rShared').onchange=(e)=>{ document.getElementById('shareBlockRes').style.display=e.target.value==='yes'?'block':'none'; updateResPreview(); };
+  document.getElementById('rShareScope').onchange=(e)=>{ document.getElementById('partnerWrapRes').style.display=e.target.value==='inteam'?'block':'none'; updateResPreview(); };
+  document.getElementById('rValue').addEventListener('input',updateResPreview);
+  document.querySelectorAll('#sharePctBtnsRes .share-pct-btn').forEach(btn=>{ btn.onclick=()=>{ document.querySelectorAll('#sharePctBtnsRes .share-pct-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); rSharePct=Number(btn.dataset.pct); updateResPreview(); }; });
+  document.getElementById('rSubmit').onclick=()=>{ const spId=document.getElementById('rSp').value; const base=readResBase(rImageData||''); if(!base.client||!spId){ showToast('Enter client name and salesperson'); return; } const shared=document.getElementById('rShared').value==='yes'; if(!shared){ DB.reservations.push({id:uid(),...base,spId,share:{enabled:false}}); } else { const scope=document.getElementById('rShareScope').value; const linkId=uid(); DB.reservations.push({id:uid(),...base,spId,role:'primary',linkId,share:{enabled:true,pct:rSharePct,scope,partnerSpId:scope==='inteam'?document.getElementById('rPartner').value:null}}); if(scope==='inteam'){ const partnerId=document.getElementById('rPartner').value; DB.reservations.push({id:uid(),...base,spId:partnerId,role:'partner',linkId,share:{enabled:true,pct:rSharePct,scope,partnerSpId:spId}}); } } save(); closeModal(); render(); showToast('Reservation saved'); };
+}
+function modalEditRes(id){
+  const rec=DB.reservations.find(x=>x.id===id); if(!rec){ showToast('Reservation not found'); return; }
+  const shared=!!(rec.share&&rec.share.enabled); const partner=shared&&rec.linkId?DB.reservations.find(x=>x.linkId===rec.linkId&&x.id!==rec.id):null;
+  const primary=shared?(rec.role==='partner'?(partner||rec):rec):rec; const partnerRec=shared?(rec.role==='partner'?rec:partner):null;
+  openModal(resFormHTML(primary,true)); let rImageData=primary.image||''; let rSharePct=shared?(primary.share.pct||50):50;
+  const rImg=document.getElementById('rImage'); if(rImg) rImg.onchange=(e)=>{ const f=e.target.files[0]; if(!f) return; const prev=document.getElementById('rImagePreview'); prev.innerHTML='<span style="font-size:11.5px; color:var(--ink-faint);">Processing image…</span>'; readImageResized(f,1000,(data)=>{ if(data) rImageData=data; prev.innerHTML=data?`<img src="${data}" style="width:100%; max-height:200px; object-fit:contain; border-radius:8px; border:1px solid var(--line);">`:'<span style="font-size:11.5px; color:var(--bad);">Could not read image</span>'; }); };
+  document.getElementById('mClose').onclick=closeModal;
+  if(shared){ document.querySelectorAll('#sharePctBtnsRes .share-pct-btn').forEach(btn=>{ btn.onclick=()=>{ document.querySelectorAll('#sharePctBtnsRes .share-pct-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); rSharePct=Number(btn.dataset.pct); }; }); }
+  document.getElementById('rSubmit').onclick=()=>{ const base=readResBase(rImageData); if(!base.client){ showToast('Enter client name'); return; } if(shared){ [primary,partnerRec].forEach(r=>{ if(!r) return; Object.assign(r,base); if(r.share) r.share.pct=rSharePct; }); } else { Object.assign(rec,base); rec.spId=document.getElementById('rSp').value; } save(); closeModal(); render(); showToast('Reservation updated ✓'); };
+}
+function modalConvertResToDeal(resId){
+  const r=DB.reservations.find(x=>x.id===resId); if(!r){ showToast('Reservation not found'); return; }
+  const shared=!!(r.share&&r.share.enabled); const partner=shared&&r.linkId?DB.reservations.find(x=>x.linkId===r.linkId&&x.id!==r.id):null;
+  const creditPctR=shared?((r.role==='partner')?(100-(r.share.pct||50)):(r.share.pct||50)):100;
+  const shareNote=shared?`<div class="split-preview">This reservation is shared. Converting will create a shared deal: <b>${esc(spName(r.spId))}</b> ${creditPctR}%${partner?` / <b>${esc(spName(partner.spId))}</b> ${100-creditPctR}%`:` (remaining ${100-creditPctR}% external)`}.</div>`:'';
+  openModal(`<div class="modal-head"><h3>Convert to Done Deal</h3><button class="modal-close" id="mClose">✕</button></div><p style="font-size:11.5px; color:var(--ink-dim); margin-bottom:14px; line-height:1.6;">Confirm the deal details for <b>${esc(r.client)}</b>. The reservation will be removed once converted.</p>
+    <div class="form-grid"><div class="form-field full"><label>Client name</label><input type="text" id="cvClient" value="${esc(r.client)}"></div><div class="form-field full"><label>Phone number</label><input type="tel" inputmode="tel" id="cvPhone" value="${esc(r.phone||'')}" placeholder="e.g. 01xxxxxxxxx"></div><div class="form-field"><label>Unit Code</label><input type="text" id="cvUnit" value="${esc(r.unitCode||'')}"></div><div class="form-field"><label>Division</label><select id="cvDivision"><option value="commercial" ${r.division==='commercial'?'selected':''}>Commercial</option><option value="residential" ${r.division==='residential'?'selected':''}>Residential</option></select></div><div class="form-field"><label>Salesperson</label><select id="cvSp" ${shared?'disabled':''}>${DB.salespeople.map(sp=>`<option value="${sp.id}" ${sp.id===r.spId?'selected':''}>${esc(sp.name)}</option>`).join('')}</select></div><div class="form-field"><label>Deal value (EGP)</label><input type="number" id="cvValue" value="${r.value||''}" placeholder="0"></div><div class="form-field"><label>Date</label><input type="date" id="cvDate" value="${new Date().toISOString().slice(0,10)}"></div><div class="form-field full"><label>Source</label><input type="text" id="cvSource" value="${esc(r.source||'')}"></div></div>
+    ${shareNote}
+    <div class="section-label" style="margin-top:8px;">Down Payment</div>
+    <div class="form-grid"><div class="form-field"><label>Down payment %</label><input type="number" id="cvDownPct" placeholder="0" max="100"></div><div class="form-field"><label>Fully paid?</label><select id="cvDownFull"><option value="yes">Yes</option><option value="no" selected>No</option></select></div><div class="form-field full" id="cvRemainWrap"><label>Remaining down payment due date</label><input type="date" id="cvRemainDate"></div><div class="form-field full"><label>Payment system / plan</label><input type="text" id="cvPaySystem" placeholder="e.g. 10% down, 6 yrs installments"></div></div>
+    <button class="form-submit" id="cvSubmit" style="margin-top:10px;">Confirm & Convert</button>`);
+  document.getElementById('mClose').onclick=closeModal;
+  document.getElementById('cvDownFull').onchange=(e)=>{ document.getElementById('cvRemainWrap').style.display=e.target.value==='yes'?'none':'block'; };
+  document.getElementById('cvSubmit').onclick=()=>{ const client=document.getElementById('cvClient').value.trim(); if(!client){ showToast('Enter client name'); return; } const downFull=document.getElementById('cvDownFull').value==='yes'; const base={ client, unitCode:document.getElementById('cvUnit').value.trim(), phone:document.getElementById('cvPhone').value.trim(), division:document.getElementById('cvDivision').value, value:Number(document.getElementById('cvValue').value)||0, date:document.getElementById('cvDate').value, source:document.getElementById('cvSource').value.trim(), downPct:Number(document.getElementById('cvDownPct').value)||0, paySystem:document.getElementById('cvPaySystem').value.trim(), downFull, downRemainDate:downFull?'':document.getElementById('cvRemainDate').value };
+    if(shared){ const linkId=uid(); DB.doneDeals.push({id:uid(),...base,spId:r.spId,role:'primary',linkId,share:{enabled:true,pct:creditPctR,scope:r.share.scope,partnerSpId:partner?partner.spId:(r.share.partnerSpId||null)}}); if(partner){ DB.doneDeals.push({id:uid(),...base,spId:partner.spId,role:'partner',linkId,share:{enabled:true,pct:creditPctR,scope:r.share.scope,partnerSpId:r.spId}}); } DB.reservations=DB.reservations.filter(x=>x.linkId!==r.linkId); } else { const spId=document.getElementById('cvSp').value; if(!spId){ showToast('Choose a salesperson'); return; } DB.doneDeals.push({id:uid(),...base,spId,share:{enabled:false}}); DB.reservations=DB.reservations.filter(x=>x.id!==resId); } save(); closeModal(); render(); showToast('Converted to Done Deal'); };
+}
+function modalConvertResToCancel(resId){
+  const r=DB.reservations.find(x=>x.id===resId); if(!r){ showToast('Reservation not found'); return; }
+  const partner=r.share&&r.share.enabled&&r.linkId?DB.reservations.find(x=>x.linkId===r.linkId&&x.id!==r.id):null;
+  openModal(`<div class="modal-head"><h3>Convert to Cancellation</h3><button class="modal-close" id="mClose">✕</button></div><p style="font-size:11.5px; color:var(--ink-dim); margin-bottom:14px; line-height:1.6;">This will remove the reservation for <b>${esc(r.client)}</b>${partner?` (shared with ${esc(spName(partner.spId))})`:''} and log it as cancelled.</p><div class="form-field full"><label>Cancellation reason</label><textarea id="cvReason" placeholder="Reason in detail..."></textarea></div><button class="form-submit" id="cvCancelSubmit">Confirm & Cancel</button>`);
+  document.getElementById('mClose').onclick=closeModal;
+  document.getElementById('cvCancelSubmit').onclick=()=>{ const reason=document.getElementById('cvReason').value.trim(); DB.cancellations.push({id:uid(),client:r.client,unitCode:r.unitCode||'',phone:r.phone||'',division:r.division,spId:r.spId,date:new Date().toISOString().slice(0,10),source:r.source||'',reason:reason+(partner?(' (shared with '+spName(partner.spId)+')'):'')}); if(r.linkId){ DB.reservations=DB.reservations.filter(x=>x.linkId!==r.linkId); } else { DB.reservations=DB.reservations.filter(x=>x.id!==resId); } save(); closeModal(); render(); showToast('Converted to Cancellation'); };
+}
+function modalAddCancel(){
+  openModal(`<div class="modal-head"><h3>Add Cancellation</h3><button class="modal-close" id="mClose">✕</button></div><div class="form-grid"><div class="form-field full"><label>Client name</label><input type="text" id="cClient" placeholder="Client name"></div><div class="form-field full"><label>Phone number</label><input type="tel" inputmode="tel" id="cPhone" placeholder="e.g. 01xxxxxxxxx"></div><div class="form-field"><label>Unit Code</label><input type="text" id="cUnit" placeholder="e.g. A-1203"></div><div class="form-field"><label>Division</label><select id="cDivision"><option value="commercial">Commercial</option><option value="residential">Residential</option></select></div><div class="form-field"><label>Salesperson</label><select id="cSp">${DB.salespeople.map(sp=>`<option value="${sp.id}">${esc(sp.name)}</option>`).join('')}</select></div><div class="form-field full"><label>Date</label><input type="date" id="cDate" value="${new Date().toISOString().slice(0,10)}"></div><div class="form-field full"><label>Source</label><input type="text" id="cSource" placeholder="e.g. Facebook, referral..."></div><div class="form-field full"><label>Cancellation reason</label><textarea id="cReason" placeholder="Reason in detail..."></textarea></div></div><button class="form-submit" id="cSubmit">Save Cancellation</button>`);
+  document.getElementById('mClose').onclick=closeModal;
+  document.getElementById('cSubmit').onclick=()=>{ const client=document.getElementById('cClient').value.trim(); const spId=document.getElementById('cSp').value; if(!client||!spId){ showToast('Enter client name and salesperson'); return; } DB.cancellations.push({id:uid(),client,unitCode:document.getElementById('cUnit').value.trim(),phone:document.getElementById('cPhone').value.trim(),division:document.getElementById('cDivision').value,spId,date:document.getElementById('cDate').value,source:document.getElementById('cSource').value.trim(),reason:document.getElementById('cReason').value.trim()}); save(); closeModal(); render(); showToast('Cancellation saved'); };
+}
+// ============================================================
+// EXPORTS — CSV (Excel), real PDF, share sheet
+// ============================================================
+function rowsToCSV(rows){ return rows.map(r=>r.map(c=>{ let v=(c===undefined||c===null)?'':String(c); v=v.replace(/<[^>]*>/g,''); if(/[",\n]/.test(v)) v='"'+v.replace(/"/g,'""')+'"'; return v; }).join(',')).join('\r\n'); }
+function downloadCSV(filename,rows,title){ shareOrDownload(filename,'text/csv;charset=utf-8','\uFEFF'+rowsToCSV(rows),{title}); }
+async function shareOrDownload(filename,mime,content,opts){
+  opts=opts||{}; let blob; try{ blob=new Blob([content],{type:mime}); }catch(e){ showToast('Could not prepare the file'); return; }
+  try{ if(navigator.share&&navigator.canShare){ const file=new File([blob],filename,{type:mime}); if(navigator.canShare({files:[file]})){ await navigator.share({files:[file],title:opts.title||filename}); showToast('Shared ✓'); return; } } }catch(e){ if(e&&e.name==='AbortError') return; }
+  if(opts.openInTab){ try{ const url=URL.createObjectURL(blob); const w=window.open(url,'_blank'); if(w){ showToast('Opened — use Print / Share from there'); setTimeout(()=>URL.revokeObjectURL(url),60000); return; } }catch(e){} }
+  try{ const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=filename; a.style.display='none'; a.rel='noopener'; document.body.appendChild(a); a.click(); setTimeout(()=>{ try{ document.body.removeChild(a); }catch(e){} URL.revokeObjectURL(url); },2000); showToast('Downloaded ✓'); return; }catch(e){}
+  try{ const reader=new FileReader(); reader.onload=()=>openManualSaveModal(filename,reader.result); reader.onerror=()=>showToast('Could not prepare the file'); reader.readAsDataURL(blob); }catch(e){ showToast('Could not prepare the file'); }
+}
+function openManualSaveModal(filename,dataUrl){ openModal(`<div class="modal-head"><h3>Save or Share</h3><button class="modal-close" id="mClose">✕</button></div><p style="font-size:12.5px; color:var(--ink-dim); line-height:1.7; margin-bottom:14px;">Press and hold the button below, then choose Save to Files / Download (or Share to send it).</p><a href="${dataUrl}" download="${esc(filename)}" style="display:block; text-align:center; background:var(--panel-2); border:1px solid var(--gold-dim); color:var(--gold); padding:14px; border-radius:10px; font-weight:700; text-decoration:none;">⬇ ${esc(filename)}</a>`); document.getElementById('mClose').onclick=closeModal; }
+async function downloadJsonBackup(){
+  const filename=`Sowalem_Team_Report_${DB.currentMonth}.json`; const content=JSON.stringify(DB,null,2); let blob;
+  try{ blob=new Blob([content],{type:'application/json'}); }catch(e){ showToast('Could not prepare the backup'); return; }
+  try{ if(navigator.share&&navigator.canShare){ const file=new File([blob],filename,{type:'application/json'}); if(navigator.canShare({files:[file]})){ await navigator.share({files:[file],title:'Team Report Backup'}); showToast('Choose "Save to Files" to keep your backup ✓'); return; } } }catch(e){ if(e&&e.name==='AbortError') return; }
+  try{ const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=filename; a.style.display='none'; a.rel='noopener'; document.body.appendChild(a); a.click(); setTimeout(()=>{ try{ document.body.removeChild(a); }catch(e){} URL.revokeObjectURL(url); },2000); showToast('Backup saved — check Files / Downloads'); return; }catch(e){}
+  try{ const reader=new FileReader(); reader.onload=()=>openManualSaveModal(filename,reader.result); reader.onerror=()=>showToast('Could not prepare the backup'); reader.readAsDataURL(blob); }catch(err){ showToast('Could not prepare the backup'); }
+}
+function exportSpXlsx(spId){
+  const sp=getSp(spId); const month=DB.currentMonth; const direct=isDirect(spId); const comm=spCommission(spId,month);
+  const rows=[['Salesperson',sp.name],['Title',sp.title||''],['Type',direct?'Direct':'Division'],['Month',monthLabel(month)],[],['Metric','Target','Achieved','%']];
+  if(direct){ const cs=divisionScore(spId,'commercial',month); rows.push(['Sales (EGP)',cs.target.sales,cs.actual.sales,fmtPct(cs.pSales)]); rows.push(['Meetings',cs.meetTarget,cs.meetActual,fmtPct(cs.pMeet)]); rows.push(['Attendance %','','',fmtPct(cs.att.pct)]); rows.push([]); rows.push(['Final score (Sales 80 / Meetings 15 / Attendance 5)','','',fmtPct(cs.composite)]); }
+  else { const cs=combinedScore(spId,month); const tobj=getSpTargetObj(spId,month); if(tobj.mode==='total'){ rows.push(['Total Sales (EGP)',cs.target.sales,cs.actual.sales,fmtPct(cs.pSales)]); rows.push(['Reservations',cs.target.reservations,round1(cs.actual.reservations),fmtPct(cs.pRes)]); } else { ['commercial','residential'].forEach(div=>{ const d=cs.byDivision[div]; rows.push([divisionLabel(div)+' Sales (EGP)',d.target.sales,d.actual.sales,fmtPct(d.pSales)]); rows.push([divisionLabel(div)+' Reservations',d.target.reservations,round1(d.actual.reservations),fmtPct(d.pRes)]); }); } rows.push(['Attendance %','','',fmtPct(cs.att.pct)]); rows.push(['Orientation',cs.orientTarget,cs.orientActual,fmtPct(cs.pOrient)]); rows.push([]); rows.push(['Combined score','','',fmtPct(cs.composite)]); }
+  rows.push([]); rows.push(['Commission rate (per million)',comm.rate]); rows.push(['Commission amount (EGP)',comm.amount]);
+  downloadCSV(`${sp.name}_${month}.csv`,rows,sp.name+' — '+monthLabel(month));
+}
+function buildSpReportContent(spId){
+  const sp=getSp(spId); const month=DB.currentMonth; const direct=isDirect(spId); const comm=spCommission(spId,month); const att=attendanceStats(spId,month); const cs=direct?divisionScore(spId,'commercial',month):combinedScore(spId,month);
+  const metrics=direct?[{label:'Sales',value:cs.pSales,color:'#C9A24B'},{label:'Meetings',value:cs.pMeet,color:'#8a6fd9'},{label:'Attendance',value:cs.pAtt,color:'#3FA796'}]:[{label:'Sales',value:cs.pSales,color:'#C9A24B'},{label:'Reservations',value:cs.pRes,color:'#3FA796'},{label:'Orientation',value:cs.pOrient,color:'#8a6fd9'},{label:'Attendance',value:cs.pAtt,color:'#4FAE7A'}];
+  const chart=svgBarChart(metrics);
+  const myDeals=DB.doneDeals.filter(d=>d.spId===spId&&(d.date||'').slice(0,7)===month).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const myRes=DB.reservations.filter(r=>r.spId===spId&&(r.date||'').slice(0,7)===month).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const myCancel=DB.cancellations.filter(c=>c.spId===spId&&(c.date||'').slice(0,7)===month).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const kpis=`<div class="kpis"><div class="kpi"><div class="v">${fmtPct(cs.composite)}%</div><div class="l">Overall Score</div></div><div class="kpi"><div class="v">${fmtMoney(cs.actual.sales)}</div><div class="l">Sales (EGP)</div></div><div class="kpi"><div class="v">${fmtMoney(comm.amount)}</div><div class="l">Commission (EGP)</div></div><div class="kpi"><div class="v">${fmtPct(att.pct)}%</div><div class="l">Attendance</div></div></div>`;
+  let evalRows;
+  if(direct){ evalRows=[['Sales (EGP)',fmtMoney(cs.target.sales),fmtMoney(cs.actual.sales),fmtPct(cs.pSales)+'%','80%'],['Meetings',cs.meetTarget,cs.meetActual,fmtPct(cs.pMeet)+'%','15%'],['Attendance','—','—',fmtPct(cs.att.pct)+'%','5%']]; }
+  else { evalRows=[['Total Sales (EGP)',fmtMoney(cs.target.sales),fmtMoney(cs.actual.sales),fmtPct(cs.pSales)+'%',(DB.weights.sales)+'%'],['Reservations',cs.target.reservations,round1(cs.actual.reservations),fmtPct(cs.pRes)+'%',(DB.weights.reservations)+'%'],['Orientation',cs.orientTarget,cs.orientActual,fmtPct(cs.pOrient)+'%',(DB.weights.orientation||0)+'%'],['Attendance','—','—',fmtPct(cs.att.pct)+'%',(DB.weights.attendance)+'%']]; }
+  const dealRows=myDeals.map(d=>[esc(d.client),divisionLabel(d.division),esc(d.unitCode||'—'),`<span class="num">${fmtMoney(dealCredit(d))}</span>`,d.date||'',(d.downFull?'Paid':((d.downPct||0)+'%'+(d.downRemainDate?(' · '+d.downRemainDate):''))),esc(d.source||'—')]);
+  const resRows=myRes.map(r=>[esc(r.client),divisionLabel(r.division),esc(r.unitCode||'—'),`<span class="num">${fmtMoney(reservationCreditValue(r))}</span>`,r.date||'',esc(r.source||'—')]);
+  const cancelRows=myCancel.map(c=>[esc(c.client),divisionLabel(c.division),esc(c.unitCode||'—'),c.date||'',esc(c.reason||'—')]);
+  const days=workingDaysList(month);
+  const actDays=days.filter(d=>{ const dd=getDaily(spId,month,d); return dd.attendIn||dd.attendOut||(dd.meetings||0)||(dd.interested||0)||(dd.notInterested||0)||(dd.orientation||0); });
+  const actHeaders=direct?['Day','Arrival','Departure','Meetings','Interested','Not Int.']:['Day','Arrival','Departure','Orientations','Companies'];
+  const actRows=actDays.map(d=>{ const dd=getDaily(spId,month,d); const arr=dd.attendIn==='ontime'?'On time':(dd.attendIn==='late'?'Late':'—'); const dep=dd.attendOut==='ontime'?'On time':(dd.attendOut==='early'?'Early':'—'); if(direct) return [`${d} ${weekdayShort(month,d)}`,arr,dep,dd.meetings||0,dd.interested||0,dd.notInterested||0]; const comps=(dd.orientCompanies||[]).filter(x=>x&&x.trim()).map(esc).join(', '); return [`${d} ${weekdayShort(month,d)}`,arr,dep,dd.orientation||0,comps||'—']; });
+  let brokerCard='';
+  if(!direct){ const bs=brokerStats(sp); const bRows=sp.brokerAccounts.filter(a=>a.name&&a.name.trim()).map((a,i)=>[i+1,esc(a.name),esc(a.sharedWith||'—')]); brokerCard=`<div class="card">${reportTable('Broker Accounts (total registered: '+bs.total+')',['#','Company','Shared with'],bRows)}</div>`; }
+  const inner=`${kpis}
+    <div class="card"><h2>Evaluation Breakdown</h2>${chart}${reportTable(direct?'Direct Sales — Sales 80% · Meetings 15% · Attendance 5%':'Division Sales',['Metric','Target','Achieved','%','Weight'],evalRows)}<p class="note">Final score: <b>${fmtPct(cs.composite)}%</b> · Commission <b>${fmtMoney(comm.amount)} EGP</b> (${fmtMoney(comm.rate)}/M on ${fmtMoney(comm.sales)} EGP)</p></div>
+    <div class="card">${reportTable('Done Deals',['Client','Division','Unit','Credited (EGP)','Date','Down','Source'],dealRows)}</div>
+    <div class="card">${reportTable('Reservations',['Client','Division','Unit','Credited (EGP)','Date','Source'],resRows)}</div>
+    <div class="card">${reportTable('Cancellations',['Client','Division','Unit','Date','Reason'],cancelRows)}</div>
+    <div class="card">${reportTable(direct?'Daily Meetings, Leads & Attendance':'Daily Orientations & Attendance',actHeaders,actRows)}</div>
+    ${brokerCard}`;
+  const fname=(sp.name.replace(/[^a-zA-Z0-9_\- ]/g,'').trim()||'salesperson')+'_'+month;
+  return { fname, title:sp.name+(sp.title?(' — '+sp.title):''), subtitle:monthLabel(month)+' · '+(direct?'Direct Sales':'Division Sales'), inner };
+}
+function exportSpPdf(spId){ const c=buildSpReportContent(spId); downloadReport(c.fname,c.title,c.subtitle,c.inner); }
+function shareSpReportPdf(spId){ const c=buildSpReportContent(spId); sharePdfReport(c.fname,c.title,c.subtitle,c.inner); }
+function exportTeamXlsx(){
+  const month=DB.currentMonth;
+  const rows=[['Salesperson','Type','Sales Target','Sales Achieved','Score %']];
+  DB.salespeople.forEach(sp=>{ const cs=isDirect(sp.id)?divisionScore(sp.id,'commercial',month):combinedScore(sp.id,month); rows.push([sp.name,isDirect(sp.id)?'Direct':'Division',cs.target.sales,cs.actual.sales,fmtPct(cs.composite)]); });
+  downloadCSV(`Team_${month}.csv`,rows,'Team — '+monthLabel(month));
+}
+function buildTeamReportContent(){
+  const month=DB.currentMonth;
+  let teamSales=0,teamTarget=0,teamRes=0;
+  DB.salespeople.forEach(sp=>{ teamSales+=monthSales(sp.id,'commercial',month)+monthSales(sp.id,'residential',month); teamTarget+=totalTarget(sp.id,month).sales; teamRes+=monthReservations(sp.id,'commercial',month)+monthReservations(sp.id,'residential',month); });
+  const teamPct=teamTarget>0?(teamSales/teamTarget)*100:0;
+  const mDeals=DB.doneDeals.filter(d=>(d.date||'').slice(0,7)===month).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const mRes=DB.reservations.filter(r=>(r.date||'').slice(0,7)===month).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const mCancel=DB.cancellations.filter(c=>(c.date||'').slice(0,7)===month).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const chart=svgBarChart(DB.salespeople.map(sp=>{ const cs=isDirect(sp.id)?divisionScore(sp.id,'commercial',month):combinedScore(sp.id,month); const v=Math.round(cs.composite*10)/10; return {label:sp.name,value:v,color:v>=90?'#4FAE7A':v>=60?'#D9A441':'#D9624F'}; }));
+  const kpis=`<div class="kpis"><div class="kpi"><div class="v">${fmtMoney(teamSales)}</div><div class="l">Team Sales (EGP)</div></div><div class="kpi"><div class="v">${fmtPct(teamPct)}%</div><div class="l">Target Achieved</div></div><div class="kpi"><div class="v">${mDeals.length}</div><div class="l">Done Deals</div></div><div class="kpi"><div class="v">${mRes.length}</div><div class="l">Reservations</div></div><div class="kpi"><div class="v">${mCancel.length}</div><div class="l">Cancellations</div></div></div>`;
+  const divisionPeople=DB.salespeople.filter(sp=>!isDirect(sp.id));
+  const directPeople=DB.salespeople.filter(sp=>isDirect(sp.id));
+  const divRows=divisionPeople.map(sp=>{ const cs=combinedScore(sp.id,month); const att=attendanceStats(sp.id,month); return [esc(sp.name),`<span class="num">${fmtMoney(cs.target.sales)}</span>`,`<span class="num">${fmtMoney(cs.actual.sales)}</span>`,round1(cs.actual.reservations)+' / '+cs.target.reservations,orientationAchieved(sp.id,month)+' / '+orientationMonthlyTarget(sp.id,month),fmtPct(cs.composite)+'%',fmtPct(att.pct)+'%']; });
+  const directRows=directPeople.map(sp=>{ const cs=divisionScore(sp.id,'commercial',month); const att=attendanceStats(sp.id,month); const info=dailyInfoTotals(sp.id,month); return [esc(sp.name),`<span class="num">${fmtMoney(cs.target.sales)}</span>`,`<span class="num">${fmtMoney(cs.actual.sales)}</span>`,meetingsAchieved(sp.id,month)+' / '+meetingsMonthlyTarget(sp.id,month),info.interested+' int / '+info.notInterested+' not',fmtPct(cs.composite)+'%',fmtPct(att.pct)+'%']; });
+  const dealRows=mDeals.map(d=>[esc(d.client),esc(spName(d.spId)),divisionLabel(d.division),esc(d.unitCode||'—'),`<span class="num">${fmtMoney(dealCredit(d))}</span>`,d.date||'',(d.downFull?'Paid':((d.downPct||0)+'%'+(d.downRemainDate?(' · '+d.downRemainDate):''))),esc(d.source||'—')]);
+  const resRows=mRes.map(r=>[esc(r.client),esc(spName(r.spId)),divisionLabel(r.division),esc(r.unitCode||'—'),`<span class="num">${fmtMoney(reservationCreditValue(r))}</span>`,r.date||'',esc(r.source||'—')]);
+  const cancelRows=mCancel.map(c=>[esc(c.client),esc(spName(c.spId)),divisionLabel(c.division),esc(c.unitCode||'—'),c.date||'',esc(c.reason||'—')]);
+  const divisionTable=divisionPeople.length?`<div class="card">${reportTable('Division Sales (Commercial / Residential)',['Name','Sales Target','Achieved','Reservations','Orientation','Score','Attend.'],divRows)}</div>`:'';
+  const directTable=directPeople.length?`<div class="card">${reportTable('Direct Sales',['Name','Sales Target','Achieved','Meetings','Leads','Score','Attend.'],directRows)}</div>`:'';
+  const inner=`${kpis}
+    <div class="card"><h2>Team Evaluation</h2>${chart}</div>
+    ${divisionTable}
+    ${directTable}
+    <div class="card">${reportTable('Done Deals',['Client','Salesperson','Division','Unit','Credited (EGP)','Date','Down','Source'],dealRows)}</div>
+    <div class="card">${reportTable('Reservations',['Client','Salesperson','Division','Unit','Credited (EGP)','Date','Source'],resRows)}</div>
+    <div class="card">${reportTable('Cancellations',['Client','Salesperson','Division','Unit','Date','Reason'],cancelRows)}</div>`;
+  return { fname:`Team_${month}`, title:"Sowalem's Team Report", subtitle:monthLabel(month), inner };
+}
+function exportTeamPdf(){ const c=buildTeamReportContent(); downloadReport(c.fname,c.title,c.subtitle,c.inner); }
+function shareTeamReportPdf(){ const c=buildTeamReportContent(); sharePdfReport(c.fname,c.title,c.subtitle,c.inner); }
+function exportDealsXlsx(){
+  const dvf=DB._dealsFilter||'all',sf=DB._dealsStatus||'all'; let deals=DB.doneDeals.slice();
+  if(dvf!=='all') deals=deals.filter(d=>d.division===dvf); if(sf==='complete') deals=deals.filter(d=>isDealComplete(d)); if(sf==='incomplete') deals=deals.filter(d=>!isDealComplete(d));
+  const rows=[['Client','Phone','Unit Code','Division','Salesperson','Full Value','Credited','Date','Source','Down %','Fully paid','Remaining date','Pay system','Shared','Share %','Scope']];
+  deals.forEach(d=>rows.push([d.client,d.phone||'',d.unitCode,divisionLabel(d.division),spName(d.spId),d.value,dealCredit(d),d.date,d.source,d.downPct||0,d.downFull?'Yes':'No',d.downRemainDate||'',d.paySystem||'',d.share&&d.share.enabled?'Yes':'No',d.share&&d.share.enabled?(d.role==='partner'?(100-d.share.pct):d.share.pct):'',d.share&&d.share.enabled?d.share.scope:'']));
+  downloadCSV(`Deals_${DB.currentMonth}.csv`,rows,'Done Deals');
+}
+function exportDealsPdf(){
+  const dvf=DB._dealsFilter||'all',sf=DB._dealsStatus||'all'; let deals=DB.doneDeals.slice();
+  if(dvf!=='all') deals=deals.filter(d=>d.division===dvf); if(sf==='complete') deals=deals.filter(d=>isDealComplete(d)); if(sf==='incomplete') deals=deals.filter(d=>!isDealComplete(d));
+  deals.sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const rows=deals.map(d=>[esc(d.client),esc(spName(d.spId)),divisionLabel(d.division),esc(d.unitCode||'—'),`<span class="num">${fmtMoney(dealCredit(d))}</span>`,d.date||'',(d.downFull?'Paid':((d.downPct||0)+'%')),esc(d.source||'—')]);
+  const inner=`<div class="card">${reportTable('Done Deals',['Client','Salesperson','Division','Unit','Credited (EGP)','Date','Down','Source'],rows)}</div>`;
+  downloadReport(`Deals_${DB.currentMonth}`,'Done Deals',monthLabel(DB.currentMonth),inner);
+}
+function exportResXlsx(){
+  const f=DB._resFilter||'all'; let items=DB.reservations.slice(); if(f!=='all') items=items.filter(d=>d.division===f);
+  const rows=[['Client','Phone','Unit Code','Division','Salesperson','Full Value','Credited','Date','Source','Shared','Share %','Scope']];
+  items.forEach(d=>rows.push([d.client,d.phone||'',d.unitCode,divisionLabel(d.division),spName(d.spId),d.value,reservationCreditValue(d),d.date,d.source,d.share&&d.share.enabled?'Yes':'No',d.share&&d.share.enabled?(d.role==='partner'?(100-d.share.pct):d.share.pct):'',d.share&&d.share.enabled?d.share.scope:'']));
+  downloadCSV(`Reservations_${DB.currentMonth}.csv`,rows,'Reservations');
+}
+function exportResPdf(){
+  const f=DB._resFilter||'all'; let items=DB.reservations.slice(); if(f!=='all') items=items.filter(d=>d.division===f);
+  items.sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const rows=items.map(d=>[esc(d.client),esc(spName(d.spId)),divisionLabel(d.division),esc(d.unitCode||'—'),`<span class="num">${fmtMoney(reservationCreditValue(d))}</span>`,d.date||'',esc(d.source||'—')]);
+  const inner=`<div class="card">${reportTable('Reservations',['Client','Salesperson','Division','Unit','Credited (EGP)','Date','Source'],rows)}</div>`;
+  downloadReport(`Reservations_${DB.currentMonth}`,'Reservations',monthLabel(DB.currentMonth),inner);
+}
+function exportCancelXlsx(){
+  const f=DB._cancelFilter||'all'; let items=DB.cancellations.slice(); if(f!=='all') items=items.filter(d=>d.division===f);
+  const rows=[['Client','Phone','Unit Code','Division','Salesperson','Date','Source','Reason']];
+  items.forEach(d=>rows.push([d.client,d.phone||'',d.unitCode,divisionLabel(d.division),spName(d.spId),d.date,d.source,d.reason]));
+  downloadCSV(`Cancellations_${DB.currentMonth}.csv`,rows,'Cancellations');
+}
+function exportCancelPdf(){
+  const f=DB._cancelFilter||'all'; let items=DB.cancellations.slice(); if(f!=='all') items=items.filter(d=>d.division===f);
+  items.sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const rows=items.map(d=>[esc(d.client),esc(spName(d.spId)),divisionLabel(d.division),esc(d.unitCode||'—'),d.date||'',esc(d.source||'—'),esc(d.reason||'—')]);
+  const inner=`<div class="card">${reportTable('Cancellations',['Client','Salesperson','Division','Unit','Date','Source','Reason'],rows)}</div>`;
+  downloadReport(`Cancellations_${DB.currentMonth}`,'Cancellations',monthLabel(DB.currentMonth),inner);
+}
+function svgBarChart(items){
+  const max=100,rowH=34,padL=140,padR=66,padT=12,w=640; const h=padT*2+items.length*rowH; const barW=w-padL-padR; let bars='';
+  items.forEach((it,i)=>{ const y=padT+i*rowH; const val=Math.max(0,Number(it.value)||0); const len=Math.max(2,Math.min(val,max)/max*barW); const col=it.color||'#C9A24B'; bars+=`<text x="${padL-10}" y="${y+rowH/2+4}" text-anchor="end" font-size="13" fill="#333">${esc(it.label)}</text>`; bars+=`<rect x="${padL}" y="${y+6}" width="${barW}" height="16" rx="4" fill="#eceff1"/>`; bars+=`<rect x="${padL}" y="${y+6}" width="${len}" height="16" rx="4" fill="${col}"/>`; bars+=`<text x="${padL+barW+8}" y="${y+rowH/2+4}" font-size="12" fill="#444">${(Math.round(val*10)/10)}%</text>`; });
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" style="max-width:660px;display:block;margin:8px 0 4px;font-family:Segoe UI,Arial">${bars}</svg>`;
+}
+function reportTable(title,headers,rows,note){
+  const head=`<tr>${headers.map(h=>`<th>${esc(h)}</th>`).join('')}</tr>`;
+  const body=rows.length?rows.map(r=>`<tr>${r.map(c=>`<td>${c===undefined||c===null?'':c}</td>`).join('')}</tr>`).join(''):`<tr><td colspan="${headers.length}" style="text-align:center;color:#999;padding:14px;">No records this month</td></tr>`;
+  return `<h2>${esc(title)} <span style="font-size:12px;color:#888;font-weight:normal;">(${rows.length})</span></h2>${note?`<p class="note">${note}</p>`:''}<table><thead>${head}</thead><tbody>${body}</tbody></table>`;
+}
+function reportCSS(){
+  return `*{box-sizing:border-box;} body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;margin:0;color:#1a2127;background:#f4f6f8;}
+    .wrap{max-width:920px;margin:0 auto;padding:22px 16px 70px;}
+    .head{background:linear-gradient(135deg,#1b2630,#0f1417);color:#fff;border-radius:14px;padding:20px 22px;margin-bottom:18px;}
+    .head h1{font-size:21px;margin:0 0 4px;} .head .sub{font-size:13px;opacity:.85;} .head .gen{font-size:11px;opacity:.6;margin-top:8px;}
+    .kpis{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+    .kpi{flex:1 1 130px;background:#fff;border:1px solid #e2e7eb;border-radius:12px;padding:13px 15px;}
+    .kpi .v{font-size:19px;font-weight:700;color:#1b2630;} .kpi .l{font-size:11px;color:#7a8893;margin-top:3px;}
+    .card{background:#fff;border:1px solid #e2e7eb;border-radius:12px;padding:16px 18px;margin-bottom:16px;overflow-x:auto;}
+    h2{font-size:15px;color:#1b2630;margin:4px 0 8px;border-left:4px solid #C9A24B;padding-left:9px;}
+    .note{font-size:11.5px;color:#8a96a0;margin:0 0 8px;}
+    table{width:100%;border-collapse:collapse;margin:6px 0 4px;font-size:12px;}
+    th,td{border:1px solid #e2e7eb;padding:7px 9px;text-align:left;vertical-align:top;}
+    th{background:#2b3640;color:#fff;font-weight:600;white-space:nowrap;} tr:nth-child(even) td{background:#f8fafb;}
+    .num{font-variant-numeric:tabular-nums;}`;
+}
+function reportBodyWrap(title,subtitle,innerHtml){ return `<div class="wrap"><div class="head"><h1>${esc(title)}</h1><div class="sub">${subtitle||''}</div><div class="gen">Generated ${new Date().toLocaleString('en-GB')}</div></div>${innerHtml}</div>`; }
+function reportShell(title,subtitle,innerHtml){ return `<!DOCTYPE html><html lang="en" dir="ltr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${esc(title)}</title><style>${reportCSS()}.printbtn{position:fixed;bottom:18px;right:18px;background:#C9A24B;color:#1a1407;border:none;border-radius:30px;padding:13px 22px;font-size:14px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.2);cursor:pointer;}@media print{.printbtn{display:none;}body{background:#fff;}.wrap{max-width:100%;padding:0;}.card,.kpi,.head{break-inside:avoid;}}</style></head><body>${reportBodyWrap(title,subtitle,innerHtml)}<button class="printbtn" onclick="window.print()">🖨 Print / Save as PDF</button></body></html>`; }
+async function htmlToPdfBlob(title,subtitle,innerHtml){
+  const ok1=await ensureHtml2Canvas(); const ok2=await ensureJsPDF();
+  if(!ok1||!ok2||typeof window.html2canvas==='undefined'||typeof window.jspdf==='undefined') return null;
+  const container=document.createElement('div');
+  container.style.position='fixed'; container.style.left='-99999px'; container.style.top='0'; container.style.width='800px'; container.style.zIndex='-1'; container.style.background='#f4f6f8'; container.style.opacity='1'; container.style.pointerEvents='none';
+  const styleTag=document.createElement('style'); styleTag.textContent=reportCSS(); container.appendChild(styleTag);
+  const bodyDiv=document.createElement('div'); bodyDiv.innerHTML=reportBodyWrap(title,subtitle,innerHtml); container.appendChild(bodyDiv);
+  document.body.appendChild(container);
+  await new Promise(r=>setTimeout(r,250)); await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+  let canvas; try{ canvas=await window.html2canvas(bodyDiv,{backgroundColor:'#f4f6f8',scale:2,useCORS:true,width:800,windowWidth:800}); }catch(e){ canvas=null; }
+  try{ document.body.removeChild(container); }catch(e){}
+  if(!canvas||!canvas.width||!canvas.height) return null;
+  try{ const {jsPDF}=window.jspdf; const pdf=new jsPDF('p','pt','a4'); const pageWidth=pdf.internal.pageSize.getWidth(); const pageHeight=pdf.internal.pageSize.getHeight(); const imgWidth=pageWidth; const imgHeight=canvas.height*imgWidth/canvas.width; const imgData=canvas.toDataURL('image/jpeg',0.92); if(!imgData||imgData.length<200) return null; let heightLeft=imgHeight; let position=0; pdf.addImage(imgData,'JPEG',0,position,imgWidth,imgHeight); heightLeft-=pageHeight; while(heightLeft>0){ position=heightLeft-imgHeight; pdf.addPage(); pdf.addImage(imgData,'JPEG',0,position,imgWidth,imgHeight); heightLeft-=pageHeight; } return pdf.output('blob'); }catch(e){ return null; }
+}
+async function downloadReport(name,title,subtitle,innerHtml){
+  showToast('Preparing PDF…'); const blob=await htmlToPdfBlob(title,subtitle,innerHtml); const fname=(name||'report');
+  if(blob){ await shareOrDownload(fname+'.pdf','application/pdf',blob,{title}); }
+  else { const html=reportShell(title,subtitle,innerHtml); await shareOrDownload(fname+'.html','text/html;charset=utf-8',html,{title,openInTab:true}); showToast('PDF tools unavailable — opened a printable page instead'); }
+}
+async function sharePdfReport(name,title,subtitle,innerHtml){
+  showToast('Preparing PDF…'); const blob=await htmlToPdfBlob(title,subtitle,innerHtml);
+  if(!blob){ showToast('Could not generate the PDF — check your connection and try again'); return; }
+  await shareOrDownload((name||'report')+'.pdf','application/pdf',blob,{title});
+}
+function shareWhatsApp(text){ const w=window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank'); if(!w) showToast('Could not open WhatsApp — allow pop-ups'); }
+// ============================================================
+// EVENT HANDLERS
+// ============================================================
+function attachHandlers(){
+  const ms=document.getElementById('monthSelect'); if(ms) ms.onchange=(e)=>{ DB.currentMonth=e.target.value; save(); render(); };
+  const pb=document.getElementById('prevMonth'); if(pb) pb.onclick=()=>{ DB.currentMonth=shiftMonth(DB.currentMonth,-1); DB._dailyChunk=0; DB._infoChunk=0; save(); render(); };
+  const nb=document.getElementById('nextMonth'); if(nb) nb.onclick=()=>{ DB.currentMonth=shiftMonth(DB.currentMonth,1); DB._dailyChunk=0; DB._infoChunk=0; save(); render(); };
+  document.querySelectorAll('.nav-btn').forEach(btn=>btn.onclick=()=>{ DB.activeTab=btn.dataset.tab; save(); render(); });
+  document.querySelectorAll('[data-tab]').forEach(el=>{ if(!el.classList.contains('nav-btn')) el.onclick=()=>{ DB.activeTab=el.dataset.tab; save(); render(); }; });
+  document.querySelectorAll('[data-open-sp]').forEach(card=>card.onclick=(e)=>{ if(e.target.closest('[data-del-sp]')) return; DB.route={view:'detail',spId:card.dataset.openSp}; DB.activeTab='team'; DB._dailyChunk=0; DB._infoChunk=0; save(); render(); });
+  const back=document.getElementById('backToList'); if(back) back.onclick=()=>{ DB.route={view:'list'}; save(); render(); };
+  const addCard=document.getElementById('addSpCard'); if(addCard) addCard.onclick=()=>{ const sp=addSalesperson(); DB.route={view:'detail',spId:sp.id}; render(); showToast('Salesperson added — edit their profile'); };
+  document.querySelectorAll('[data-del-sp]').forEach(btn=>btn.onclick=(e)=>{ e.stopPropagation(); const id=btn.dataset.delSp; const sp=getSp(id); confirmAction(`Remove ${sp?sp.name:'this salesperson'} from the team?`,()=>{ removeSalesperson(id); render(); showToast('Removed from team'); },{danger:true,yesLabel:'Remove'}); });
+  const settingsAddSp=document.getElementById('settingsAddSp'); if(settingsAddSp) settingsAddSp.onclick=()=>{ addSalesperson(); render(); showToast('Salesperson added'); };
+  document.querySelectorAll('[data-settings-del-sp]').forEach(btn=>btn.onclick=()=>{ const id=btn.dataset.settingsDelSp; const sp=getSp(id); confirmAction(`Remove ${sp?sp.name:'this salesperson'} from the team?`,()=>{ removeSalesperson(id); render(); showToast('Removed from team'); },{danger:true,yesLabel:'Remove'}); });
+  document.querySelectorAll('.division-btn').forEach(btn=>btn.onclick=()=>{ if(!btn.dataset.division) return; DB.currentDivision=btn.dataset.division; save(); render(); });
+  const spb=document.getElementById('saveSpProfile'); if(spb) spb.onclick=()=>{ const sp=getSp(DB.route.spId); if(!sp) return; sp.name=document.getElementById('editSpName').value.trim()||sp.name; sp.title=document.getElementById('editSpTitle').value.trim(); sp.joinDate=document.getElementById('editSpJoin').value; sp.type=document.getElementById('editSpType').value; sp.notes=document.getElementById('editSpNotes').value.trim(); save(); render(); showToast('Profile saved'); };
+  const delBtn=document.getElementById('deleteSpBtn'); if(delBtn) delBtn.onclick=()=>{ const sp=getSp(DB.route.spId); if(!sp) return; confirmAction(`Remove ${sp.name} from the team?`,()=>{ removeSalesperson(sp.id); render(); showToast('Removed from team'); },{danger:true,yesLabel:'Remove'}); };
+  document.querySelectorAll('[data-sptarget]').forEach(inp=>inp.addEventListener('input',()=>{ const [spId,scope,field]=inp.dataset.sptarget.split('|'); setSpTargetField(spId,DB.currentMonth,scope,field,Number(inp.value)||0); liveScores(spId); }));
+  document.querySelectorAll('[data-tmode]').forEach(btn=>btn.onclick=()=>{ const sp=getSp(DB.route.spId); if(!sp) return; setSpTargetMode(sp.id,DB.currentMonth,btn.dataset.tmode); render(); });
+  document.querySelectorAll('[data-daily]').forEach(inp=>['input','change'].forEach(ev=>inp.addEventListener(ev,()=>{ const [spId,month,day,field]=inp.dataset.daily.split('|'); const v=Number(inp.value)||0; setDaily(spId,month,Number(day),field,v); if(field==='orientation'){ render(); return; } liveDaily(spId,month); liveScores(spId); })));
+  document.querySelectorAll('[data-daily-company]').forEach(inp=>inp.addEventListener('input',()=>{ const [spId,month,day,idx]=inp.dataset.dailyCompany.split('|'); setDailyCompany(spId,month,Number(day),Number(idx),inp.value); }));
+  document.querySelectorAll('[data-attseg]').forEach(group=>{ const [spId,month,day,field]=group.dataset.attseg.split('|'); group.querySelectorAll('.att-seg-btn').forEach(btn=>btn.onclick=()=>{ const current=getDaily(spId,month,Number(day))[field]; const newVal=current===btn.dataset.val?'':btn.dataset.val; setDaily(spId,month,Number(day),field,newVal); liveDaily(spId,month); liveScores(spId); group.querySelectorAll('.att-seg-btn').forEach(b=>{ b.classList.remove('active','good','bad'); }); if(newVal){ btn.classList.add('active',(btn.dataset.val==='ontime')?'good':'bad'); } }); });
+  const dcp=document.getElementById('dailyChunkPrev'); if(dcp) dcp.onclick=()=>{ DB._dailyChunk=Math.max(0,(DB._dailyChunk||0)-1); render(); };
+  const dcn=document.getElementById('dailyChunkNext'); if(dcn) dcn.onclick=()=>{ const mc=Math.ceil(workingDaysList(DB.currentMonth).length/6); DB._dailyChunk=Math.min(mc-1,(DB._dailyChunk||0)+1); render(); };
+  const icp=document.getElementById('infoChunkPrev'); if(icp) icp.onclick=()=>{ DB._infoChunk=Math.max(0,(DB._infoChunk||0)-1); render(); };
+  const icn=document.getElementById('infoChunkNext'); if(icn) icn.onclick=()=>{ const mc=Math.ceil(workingDaysList(DB.currentMonth).length/6); DB._infoChunk=Math.min(mc-1,(DB._infoChunk||0)+1); render(); };
+  document.querySelectorAll('[data-brokercount]').forEach(sel=>sel.onchange=()=>{ const sp=getSp(sel.dataset.brokercount); if(!sp) return; sp.brokerCount=Number(sel.value)||0; save(); liveBroker(sp); });
+  document.querySelectorAll('[data-broker-add]').forEach(btn=>btn.onclick=()=>{ const sp=getSp(btn.dataset.brokerAdd); if(!sp) return; sp.brokerAccounts.push({id:uid(),name:'',sharedWith:''}); save(); render(); });
+  document.querySelectorAll('[data-broker-field]').forEach(inp=>inp.addEventListener('input',()=>{ const [spId,accId,field]=inp.dataset.brokerField.split('|'); const sp=getSp(spId); if(!sp) return; const acc=sp.brokerAccounts.find(a=>a.id===accId); if(acc){ acc[field]=inp.value; save(); liveBroker(sp); } }));
+  document.querySelectorAll('[data-broker-del]').forEach(btn=>btn.onclick=()=>{ const [spId,accId]=btn.dataset.brokerDel.split('|'); const sp=getSp(spId); if(!sp) return; sp.brokerAccounts=sp.brokerAccounts.filter(a=>a.id!==accId); save(); render(); });
+  document.querySelectorAll('[data-detail-export-wa]').forEach(b=>b.onclick=()=>shareSpReportPdf(b.dataset.detailExportWa));
+  document.querySelectorAll('[data-detail-export-xlsx]').forEach(b=>b.onclick=()=>exportSpXlsx(b.dataset.detailExportXlsx));
+  document.querySelectorAll('[data-detail-export-pdf]').forEach(b=>b.onclick=()=>exportSpPdf(b.dataset.detailExportPdf));
+  document.querySelectorAll('[data-sp-export-wa]').forEach(b=>b.onclick=()=>shareSpReportPdf(b.dataset.spExportWa));
+  document.querySelectorAll('[data-sp-export-xlsx]').forEach(b=>b.onclick=()=>exportSpXlsx(b.dataset.spExportXlsx));
+  document.querySelectorAll('[data-sp-export-pdf]').forEach(b=>b.onclick=()=>exportSpPdf(b.dataset.spExportPdf));
+  const oad=document.getElementById('openAddDeal'); if(oad) oad.onclick=modalAddDeal;
+  document.querySelectorAll('[data-deal-filter]').forEach(c=>c.onclick=()=>{ DB._dealsFilter=c.dataset.dealFilter; render(); });
+  document.querySelectorAll('[data-deal-status]').forEach(c=>c.onclick=()=>{ DB._dealsStatus=c.dataset.dealStatus; render(); });
+  document.querySelectorAll('[data-deal-edit]').forEach(b=>b.onclick=()=>modalEditDeal(b.dataset.dealEdit));
+  document.querySelectorAll('[data-deal-del]').forEach(b=>b.onclick=()=>{ const id=b.dataset.dealDel; confirmAction('Delete this deal? Linked share deals will also be removed.',()=>{ const d=DB.doneDeals.find(x=>x.id===id); if(d&&d.linkId){ DB.doneDeals=DB.doneDeals.filter(x=>x.linkId!==d.linkId); } else { DB.doneDeals=DB.doneDeals.filter(x=>x.id!==id); } save(); render(); showToast('Deleted'); },{danger:true,yesLabel:'Delete'}); });
+  const edx=document.getElementById('exportDealsXlsx'); if(edx) edx.onclick=exportDealsXlsx;
+  const edp=document.getElementById('exportDealsPdf'); if(edp) edp.onclick=exportDealsPdf;
+  const oar=document.getElementById('openAddRes'); if(oar) oar.onclick=modalAddRes;
+  document.querySelectorAll('[data-res-filter]').forEach(c=>c.onclick=()=>{ DB._resFilter=c.dataset.resFilter; render(); });
+  document.querySelectorAll('[data-res-edit]').forEach(b=>b.onclick=()=>modalEditRes(b.dataset.resEdit));
+  document.querySelectorAll('[data-res-del]').forEach(b=>b.onclick=()=>{ const id=b.dataset.resDel; confirmAction('Delete this reservation?',()=>{ DB.reservations=DB.reservations.filter(x=>x.id!==id); save(); render(); showToast('Deleted'); },{danger:true,yesLabel:'Delete'}); });
+  document.querySelectorAll('[data-res-to-deal]').forEach(b=>b.onclick=()=>modalConvertResToDeal(b.dataset.resToDeal));
+  document.querySelectorAll('[data-res-to-cancel]').forEach(b=>b.onclick=()=>modalConvertResToCancel(b.dataset.resToCancel));
+  document.querySelectorAll('[data-res-img]').forEach(im=>im.onclick=()=>viewImage(im.getAttribute('src')));
+  const erx=document.getElementById('exportResXlsx'); if(erx) erx.onclick=exportResXlsx;
+  const erp=document.getElementById('exportResPdf'); if(erp) erp.onclick=exportResPdf;
+  const oac=document.getElementById('openAddCancel'); if(oac) oac.onclick=modalAddCancel;
+  document.querySelectorAll('[data-cancel-filter]').forEach(c=>c.onclick=()=>{ DB._cancelFilter=c.dataset.cancelFilter; render(); });
+  document.querySelectorAll('[data-cancel-del]').forEach(b=>b.onclick=()=>{ const id=b.dataset.cancelDel; confirmAction('Delete this record?',()=>{ DB.cancellations=DB.cancellations.filter(x=>x.id!==id); save(); render(); showToast('Deleted'); },{danger:true,yesLabel:'Delete'}); });
+  const ecx=document.getElementById('exportCancelXlsx'); if(ecx) ecx.onclick=exportCancelXlsx;
+  const ecp=document.getElementById('exportCancelPdf'); if(ecp) ecp.onclick=exportCancelPdf;
+  const etw=document.getElementById('exportTeamWa'); if(etw) etw.onclick=()=>shareTeamReportPdf();
+  const etx=document.getElementById('exportTeamXlsx'); if(etx) etx.onclick=exportTeamXlsx;
+  const etp=document.getElementById('exportTeamPdf'); if(etp) etp.onclick=exportTeamPdf;
+  document.querySelectorAll('[data-task-toggle]').forEach(el=>el.onclick=()=>{ toggleMyTask(Number(el.dataset.taskToggle)); render(); });
+  document.querySelectorAll('[data-taskedit]').forEach(inp=>inp.addEventListener('input',()=>{ editMyTask(Number(inp.dataset.taskedit),inp.value); }));
+  document.querySelectorAll('[data-taskdel]').forEach(b=>b.onclick=()=>{ const i=Number(b.dataset.taskdel); confirmAction('Remove this task?',()=>{ removeMyTask(i); render(); },{danger:true,yesLabel:'Remove'}); });
+  const atb=document.getElementById('addTaskBtn'); if(atb) atb.onclick=()=>{ const inp=document.getElementById('newTaskInput'); if(inp&&inp.value.trim()){ addMyTask(inp.value); render(); } };
+  // Sales Log handlers
+  const slMgrName=document.getElementById('slManagerName'); if(slMgrName) slMgrName.addEventListener('input',()=>{ DB.salesLog.managerName=slMgrName.value; save(); const lbl=document.getElementById('slMgrLabel'); if(lbl) lbl.textContent=slMgrName.value.trim()||'Manager'; });
+  const slAdd=document.getElementById('slAddRow'); if(slAdd) slAdd.onclick=()=>{ addSalesLogRow(); render(); };
+  document.querySelectorAll('[data-slm-field]').forEach(el=>el.addEventListener('input',()=>{ const [id,field]=el.dataset.slmField.split('|'); const row=DB.salesLog.rows.find(r=>r.id===id); if(!row) return; if(field==='count') row.count=Number(el.value)||0; else if(field==='value') row.value=Number(el.value)||0; else row.name=el.value; save(); if(field!=='name') updateSalesLogFooter(); }));
+  document.querySelectorAll('[data-slm-up]').forEach(b=>b.onclick=()=>{ moveSalesLogRow(b.dataset.slmUp,-1); render(); });
+  document.querySelectorAll('[data-slm-down]').forEach(b=>b.onclick=()=>{ moveSalesLogRow(b.dataset.slmDown,1); render(); });
+  document.querySelectorAll('[data-slm-del]').forEach(b=>b.onclick=()=>{ const id=b.dataset.slmDel; const row=DB.salesLog.rows.find(r=>r.id===id); confirmAction(`Delete ${row&&row.name?row.name:'this row'}?`,()=>{ removeSalesLogRow(id); render(); showToast('Deleted'); },{danger:true,yesLabel:'Delete'}); });
+  document.querySelectorAll('[data-weight]').forEach(sl=>sl.addEventListener('input',()=>{ DB.weights[sl.dataset.weight]=Number(sl.value); save(); const v=sl.nextElementSibling; if(v) v.textContent=sl.value+'%'; const se=document.querySelector('.weight-sum'); if(se){ const sum=DB.weights.sales+DB.weights.reservations+(DB.weights.orientation||0)+DB.weights.attendance; se.textContent=`Total: ${sum}% ${sum!==100?'(should equal 100%)':''}`; se.classList.toggle('bad',sum!==100); } }));
+  const odi=document.querySelector('[data-orientday]'); if(odi) odi.addEventListener('input',()=>{ DB.orientationPerDay=Math.max(0,Number(odi.value)||0); save(); });
+  const mmi=document.querySelector('[data-meetmonth]'); if(mmi) mmi.addEventListener('input',()=>{ DB.meetingsPerMonth=Math.max(0,Number(mmi.value)||0); save(); });
+  const dof=document.querySelector('[data-dayoff]'); if(dof) dof.onchange=()=>{ DB.dayOff=Number(dof.value); save(); };
+  document.querySelectorAll('[data-tier]').forEach(inp=>inp.addEventListener('input',()=>{ DB.commissionTiers[inp.dataset.tier]=Number(inp.value)||0; save(); }));
+  const qbk=document.getElementById('quickBackupBtn'); if(qbk) qbk.onclick=quickBackup;
+  const qrs=document.getElementById('quickRestoreBtn'); if(qrs) qrs.onclick=()=>{ confirmAction('Restore your last Quick Backup? Current data will be replaced.',()=>{ quickRestore(); },{danger:true,yesLabel:'Restore'}); };
+  const bb=document.getElementById('backupBtn'); if(bb) bb.onclick=downloadJsonBackup;
+  const rb=document.getElementById('restoreBtn'); const rf=document.getElementById('restoreFile');
+  if(rb&&rf){ rb.onclick=()=>{ try{ rf.value=''; }catch(e){} rf.click(); }; rf.onchange=(e)=>{ const file=e.target.files[0]; if(!file){ showToast('No file selected'); return; } const rd=new FileReader(); rd.onload=(ev)=>{ try{ const parsed=JSON.parse(ev.target.result); DB=(parsed&&parsed.db&&parsed.savedAt)?parsed.db:parsed; normalizeDB(); save(); render(); showToast('Restored successfully ✓'); }catch(err){ showToast('Not a valid backup file'); } }; rd.onerror=()=>showToast('Could not read the file'); rd.readAsText(file); }; }
+  const wb=document.getElementById('wipeBtn'); if(wb) wb.onclick=()=>{ confirmAction('This erases ALL data permanently and cannot be undone. Continue?',()=>{ DB=defaultDB(); save(); render(); showToast('All data erased'); },{danger:true,yesLabel:'Erase everything',title:'Erase all data'}); };
+  const cdb=document.getElementById('clearDealsBtn'); if(cdb) cdb.onclick=()=>{ confirmAction('Delete ALL done deals? This cannot be undone.',()=>{ DB.doneDeals=[]; save(); render(); showToast('All deals cleared'); },{danger:true,yesLabel:'Clear all'}); };
+  const ccb=document.getElementById('clearCancelBtn'); if(ccb) ccb.onclick=()=>{ confirmAction('Delete ALL cancellation records? This cannot be undone.',()=>{ DB.cancellations=[]; save(); render(); showToast('All cancellations cleared'); },{danger:true,yesLabel:'Clear all'}); };
+  const crb=document.getElementById('clearResBtn'); if(crb) crb.onclick=()=>{ confirmAction('Delete ALL reservations? This cannot be undone.',()=>{ DB.reservations=[]; save(); render(); showToast('All reservations cleared'); },{danger:true,yesLabel:'Clear all'}); };
+}
+function liveScores(spId){ const sp=getSp(spId); if(!sp) return; const direct=isDirect(spId); const score=direct?divisionScore(spId,'commercial',DB.currentMonth):combinedScore(spId,DB.currentMonth); const bars=document.querySelectorAll('#metricBarsBlock .mbar-row'); const vals=direct?[score.pSales,score.pMeet,score.pAtt]:[score.pSales,score.pRes,score.pOrient,score.pAtt]; bars.forEach((bar,i)=>{ const v=vals[i]; if(v===undefined) return; const ve=bar.querySelector('.mval'); const fe=bar.querySelector('.mbar-fill'); if(ve) ve.textContent=fmtPct(v)+'%'; if(fe) fe.style.width=Math.min(Math.min(v,130),100)+'%'; }); }
+function liveDaily(spId,month){ const direct=isDirect(spId); const att=attendanceStats(spId,month); const orientDone=orientationAchieved(spId,month); const info=dailyInfoTotals(spId,month); const meetDone=meetingsAchieved(spId,month); const chipSets=document.querySelectorAll('.daily-totals'); chipSets.forEach(set=>{ const vs=set.querySelectorAll('.daily-total-chip .v'); const labels=Array.from(set.querySelectorAll('.daily-total-chip .l')).map(l=>l.textContent); if(labels[0]==='Compliance'){ if(vs[0]) vs[0].textContent=fmtPct(att.pct)+'%'; if(vs[1]) vs[1].textContent=att.onTimeInDays; if(vs[2]) vs[2].textContent=att.onTimeOutDays; } else if(labels[0]==='Meetings'){ if(vs[0]) vs[0].textContent=meetDone; if(vs[1]) vs[1].textContent=orientDone; if(vs[2]) vs[2].textContent=info.interested; } else if(labels[0]==='Total Leads'){ if(vs[0]) vs[0].textContent=orientDone; if(vs[1]) vs[1].textContent=info.interested; if(vs[2]) vs[2].textContent=info.notInterested; } else if(labels[0]==='Orientations'){ if(vs[0]) vs[0].textContent=orientDone; if(vs[1]) vs[1].textContent=info.interested; if(vs[2]) vs[2].textContent=info.notInterested; } else if(labels[0]==='Monthly Target'){ if(direct){ const mt=meetingsMonthlyTarget(spId,month); if(vs[1]) vs[1].textContent=meetDone; if(vs[2]) vs[2].textContent=fmtPct(mt>0?(meetDone/mt)*100:0)+'%'; } else { const tgt=orientationMonthlyTarget(spId,month); if(vs[1]) vs[1].textContent=orientDone; if(vs[2]) vs[2].textContent=fmtPct(tgt>0?(orientDone/tgt)*100:0)+'%'; } } }); }
+function liveBroker(sp){ const s=brokerStats(sp); const vs=document.querySelectorAll('.broker-stat .v'); if(vs[0]) vs[0].textContent=s.total; if(vs[1]) vs[1].textContent=s.exclusive; if(vs[2]) vs[2].textContent=s.shared; }
+
+// ============================================================
+// INIT + OFFLINE
+// ============================================================
+const _mo=document.getElementById('modalOverlay');
+if(_mo){ _mo.addEventListener('click',(e)=>{ if(e.target.id==='modalOverlay') closeModal(); }); }
+window.addEventListener('pagehide',flushSave);
+window.addEventListener('beforeunload',flushSave);
+window.addEventListener('blur',flushSave);
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='hidden') flushSave(); });
+try{ window.addEventListener('freeze',flushSave); }catch(e){}
+try{ window.addEventListener('pagehide',flushSave,{capture:true}); }catch(e){}
+setInterval(()=>{ if(_dirty) flushSave(); },3000);
+if('serviceWorker' in navigator){ window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); }); }
+async function init(){
+  try{ await loadFromStorage(); }catch(e){}
+  try{ render(); }
+  catch(err){ document.getElementById('app').innerHTML='<div style="padding:40px 20px; text-align:center; color:#8FA0A8;"><p style="font-size:14px;">A problem occurred while loading. Try reopening.</p><p style="font-size:11px; margin-top:8px; color:#5C6B72;">'+esc(err.message||err)+'</p></div>'; }
+}
+init();
+</script>
+</body>
+</html>
